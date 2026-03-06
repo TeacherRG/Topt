@@ -10,11 +10,16 @@
   "grammar": {
     "topic": "Артикли: der, die, das",
     "explanation": "В немецком языке каждое существительное несёт грамматический род: мужской (der), женский (die) или средний (das). Как мудрость даётся свыше — так и род существительного «даётся» словарём. Запоминайте слово вместе с артиклем.",
-    "formula": "der → мужской род  (Maskulinum)\ndie → женский род  (Femininum)\ndas → средний род  (Neutrum)\ndie → множественное число (все роды)",
+    "formula": "der → мужской род  (Maskulinum)\ndie → женский род  (Femininum)\ndas → средний род  (Neutrum)\ndie → множественное число (все роды)\n\nПодсказки по суффиксам:\n-heit, -keit, -ung, -schaft → всегда die\n-er, -ling (деятель) → часто der\n-chen, -lein → всегда das",
     "examples": [
-      { "de": "der Weg", "ru": "путь (м.р.) — der: der Mann, der Tag, der Sohn" },
-      { "de": "die Weisheit", "ru": "мудрость (ж.р.) — die: die Frau, die Nacht, die Seele" },
-      { "de": "das Herz", "ru": "сердце (ср.р.) — das: das Kind, das Buch, das Licht" }
+      { "de": "Der König ist weise.", "ru": "Царь мудр." },
+      { "de": "Die Weisheit kommt von Gott.", "ru": "Мудрость приходит от Бога." },
+      { "de": "Das Herz des Weisen ist rein.", "ru": "Сердце мудреца чисто." },
+      { "de": "Der Sohn ehrt seinen Vater.", "ru": "Сын чтит своего отца." },
+      { "de": "Die Seele sucht den Herrn.", "ru": "Душа ищет Господа." },
+      { "de": "Das Licht leuchtet in der Nacht.", "ru": "Свет светит в ночи." },
+      { "de": "Der Weg zur Weisheit ist lang.", "ru": "Путь к мудрости долог." },
+      { "de": "Die Wahrheit ist kostbar.", "ru": "Истина драгоценна." }
     ]
   },
   "exercises": [
@@ -36,6 +41,26 @@
       "question": "Переведите сочетание: «путь к мудрости» (Weg = м.р., Weisheit = ж.р.)",
       "answer": "der Weg zur Weisheit",
       "hint": "der Weg (м.р.), zur = zu + der (дательный)"
+    },
+    {
+      "type": "classify",
+      "question": "Какой артикль у слова «König» (царь)?",
+      "options": ["der", "die", "das", "ein"],
+      "answer": "der",
+      "hint": "König — мужской деятель, суффикс -ig → der"
+    },
+    {
+      "type": "fill",
+      "question": "___ Wahrheit ist kostbar. (die — ж. род)",
+      "answer": "Die",
+      "hint": "Wahrheit = истина → суффикс -heit → die"
+    },
+    {
+      "type": "classify",
+      "question": "Какой артикль у слова «Herz» (сердце)?",
+      "options": ["der", "die", "das", "den"],
+      "answer": "das",
+      "hint": "Herz — исключение, средний род → das"
     }
   ]
 }
