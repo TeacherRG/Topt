@@ -1,0 +1,41 @@
+{
+  "number": 1,
+  "theme": "Начало мудрости",
+  "verse": {
+    "ref": "Мишлей 1:7",
+    "he": "יִרְאַת יְהוָה רֵאשִׁית דָּעַת חָכְמָה וּמוּסָר אֱוִילִים בָּזוּ",
+    "ru": "Страх Господень — начало познания; мудрость и наставление презирают глупцы.",
+    "de": "Die Furcht des HERRN ist der Anfang der Erkenntnis; Weisheit und Zucht verachten die Toren."
+  },
+  "grammar": {
+    "topic": "Глагол sein — «быть» в настоящем времени",
+    "explanation": "Глагол sein («быть») — самый важный глагол немецкого языка. Он стоит у истоков грамматики, как страх Господень — у истоков мудрости. Sein описывает качества, состояния и принадлежность.",
+    "formula": "ich bin     → я есть\ndu bist     → ты есть\ner/sie/es ist → он/она/оно есть\nwir sind    → мы есть\nihr seid    → вы (неформ.) есть\nsie/Sie sind → они / Вы есть",
+    "examples": [
+      { "de": "Die Weisheit ist wertvoll.", "ru": "Мудрость ценна." },
+      { "de": "Ich bin ein Schüler.", "ru": "Я — ученик." },
+      { "de": "Wir sind auf dem Weg der Erkenntnis.", "ru": "Мы — на пути познания." }
+    ]
+  },
+  "exercises": [
+    {
+      "type": "fill",
+      "question": "Die Weisheit ___ der Anfang des Lebens. (sein)",
+      "answer": "ist",
+      "hint": "3-е лицо, ед. число → ist"
+    },
+    {
+      "type": "classify",
+      "question": "Выберите правильную форму для «Wir ___ weise»:",
+      "options": ["bin", "sind", "ist", "seid"],
+      "answer": "sind",
+      "hint": "Wir (мы) → sind"
+    },
+    {
+      "type": "translate",
+      "question": "Переведите: «Страх Господень — начало мудрости.»",
+      "answer": "Die Furcht des HERRN ist der Anfang der Weisheit.",
+      "hint": "Furcht = страх, Anfang = начало, Weisheit = мудрость"
+    }
+  ]
+}

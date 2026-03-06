@@ -1,0 +1,41 @@
+{
+  "number": 3,
+  "theme": "Доверие к Богу",
+  "verse": {
+    "ref": "Мишлей 3:5",
+    "he": "בְּטַח אֶל יְהוָה בְּכָל לִבֶּךָ וְאֶל בִּינָתְךָ אַל תִּשָּׁעֵן",
+    "ru": "Надейся на Господа всем сердцем твоим и не полагайся на разум твой.",
+    "de": "Vertraue dem HERRN von ganzem Herzen und stütze dich nicht auf deinen Verstand."
+  },
+  "grammar": {
+    "topic": "Модальные глаголы: können, müssen, sollen",
+    "explanation": "Модальные глаголы добавляют оттенок к действию: können (мочь/уметь), müssen (быть должным/обязанным), sollen (следует/велено). Как притча учит не полагаться лишь на себя — так и модальный глагол указывает, что инфинитив ставится в конец предложения.",
+    "formula": "können (мочь):   ich kann, du kannst, er/sie/es kann\nmüssen (должен): ich muss, du musst, er/sie/es muss\nsollen (следует): ich soll,  du sollst,  er/sie/es soll\n\n→ Инфинитив всегда уходит в КОНЕЦ предложения:\n  «Ich kann Weisheit finden.»",
+    "examples": [
+      { "de": "Ich kann Weisheit finden.", "ru": "Я могу найти мудрость." },
+      { "de": "Du musst dem HERRN vertrauen.", "ru": "Ты должен доверять Господу." },
+      { "de": "Man soll nicht auf sich selbst bauen.", "ru": "Не следует полагаться лишь на себя." }
+    ]
+  },
+  "exercises": [
+    {
+      "type": "classify",
+      "question": "Выберите правильную форму «können» для «er»:",
+      "options": ["kann", "können", "kannst", "könnt"],
+      "answer": "kann",
+      "hint": "er/sie/es + können → kann (без окончания)"
+    },
+    {
+      "type": "fill",
+      "question": "Du ___ dem HERRN vertrauen. (müssen)",
+      "answer": "musst",
+      "hint": "du + müssen → musst"
+    },
+    {
+      "type": "translate",
+      "question": "Переведите: «Я должен искать мудрость.»",
+      "answer": "Ich muss Weisheit suchen.",
+      "hint": "müssen → muss; suchen = искать; инфинитив — в конец"
+    }
+  ]
+}

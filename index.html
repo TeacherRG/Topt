@@ -75,6 +75,49 @@
       margin-top: 6px;
     }
 
+    /* ── LOADING ── */
+    .loading-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .loading-spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--paper-dark);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .75rem;
+      letter-spacing: 1.2px;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    /* ── ERROR ── */
+    .error-card {
+      background: rgba(139,58,42,.08);
+      border: 1px solid var(--rust);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-top: 40px;
+      text-align: center;
+    }
+    .error-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--rust);
+      margin-bottom: 8px;
+    }
+    .error-msg { font-size: .88rem; opacity: .75; margin-bottom: 18px; }
+
     /* ── BOOK CARD ── */
     .book-card {
       background: #fff;
@@ -525,223 +568,57 @@
 'use strict';
 
 // ================================================================
-// DATA
+// DATA LOADER
 // ================================================================
-const BOOKS = {
-  mishlei: {
-    id: 'mishlei',
-    name: 'Мишлей / Притчи',
-    nameHe: 'מִשְׁלֵי שְׁלֹמֹה',
-    nameDe: 'Das Buch der Sprichwörter',
-    description: 'Книга мудрости царя Соломона — 31 глава',
-    chapters: [
-      // ── CHAPTER 1 ─────────────────────────────────────────────
-      {
-        number: 1,
-        theme: 'Начало мудрости',
-        verse: {
-          ref: 'Мишлей 1:7',
-          he: 'יִרְאַת יְהוָה רֵאשִׁית דָּעַת חָכְמָה וּמוּסָר אֱוִילִים בָּזוּ',
-          ru: 'Страх Господень — начало познания; мудрость и наставление презирают глупцы.',
-          de: 'Die Furcht des HERRN ist der Anfang der Erkenntnis; Weisheit und Zucht verachten die Toren.'
-        },
-        grammar: {
-          topic: 'Глагол sein — «быть» в настоящем времени',
-          explanation:
-            'Глагол sein («быть») — самый важный глагол немецкого языка. Он стоит у истоков грамматики, как страх Господень — у истоков мудрости. Sein описывает качества, состояния и принадлежность.',
-          formula:
-            'ich bin     → я есть\ndu bist     → ты есть\ner/sie/es ist → он/она/оно есть\nwir sind    → мы есть\nihr seid    → вы (неформ.) есть\nsie/Sie sind → они / Вы есть',
-          examples: [
-            { de: 'Die Weisheit ist wertvoll.', ru: 'Мудрость ценна.' },
-            { de: 'Ich bin ein Schüler.', ru: 'Я — ученик.' },
-            { de: 'Wir sind auf dem Weg der Erkenntnis.', ru: 'Мы — на пути познания.' }
-          ]
-        },
-        exercises: [
-          {
-            type: 'fill',
-            question: 'Die Weisheit ___ der Anfang des Lebens. (sein)',
-            answer: 'ist',
-            hint: '3-е лицо, ед. число → ist'
-          },
-          {
-            type: 'classify',
-            question: 'Выберите правильную форму для «Wir ___ weise»:',
-            options: ['bin', 'sind', 'ist', 'seid'],
-            answer: 'sind',
-            hint: 'Wir (мы) → sind'
-          },
-          {
-            type: 'translate',
-            question: 'Переведите: «Страх Господень — начало мудрости.»',
-            answer: 'Die Furcht des HERRN ist der Anfang der Weisheit.',
-            hint: 'Furcht = страх, Anfang = начало, Weisheit = мудрость'
-          }
-        ]
-      },
 
-      // ── CHAPTER 2 ─────────────────────────────────────────────
-      {
-        number: 2,
-        theme: 'Поиск мудрости',
-        verse: {
-          ref: 'Мишлей 2:6',
-          he: 'כִּי יְהוָה יִתֵּן חָכְמָה מִפִּיו דַּעַת וּתְבוּנָה',
-          ru: 'Ибо Господь даёт мудрость; из уст Его — знание и разумение.',
-          de: 'Denn der HERR gibt Weisheit; aus seinem Mund kommen Erkenntnis und Einsicht.'
-        },
-        grammar: {
-          topic: 'Артикли: der, die, das',
-          explanation:
-            'В немецком языке каждое существительное несёт грамматический род: мужской (der), женский (die) или средний (das). Как мудрость даётся свыше — так и род существительного «даётся» словарём. Запоминайте слово вместе с артиклем.',
-          formula:
-            'der → мужской род  (Maskulinum)\ndie → женский род  (Femininum)\ndas → средний род  (Neutrum)\ndie → множественное число (все роды)',
-          examples: [
-            { de: 'der Weg', ru: 'путь (м.р.) — der: der Mann, der Tag, der Sohn' },
-            { de: 'die Weisheit', ru: 'мудрость (ж.р.) — die: die Frau, die Nacht, die Seele' },
-            { de: 'das Herz', ru: 'сердце (ср.р.) — das: das Kind, das Buch, das Licht' }
-          ]
-        },
-        exercises: [
-          {
-            type: 'classify',
-            question: 'Какой артикль у слова «Weisheit» (мудрость)?',
-            options: ['der', 'die', 'das', 'den'],
-            answer: 'die',
-            hint: 'Суффикс -heit → всегда женский род (die)'
-          },
-          {
-            type: 'fill',
-            question: '___ Kind sucht Weisheit. (das — ср. род)',
-            answer: 'Das',
-            hint: 'Kind = ребёнок → средний род → Das (с заглавной в начале предложения)'
-          },
-          {
-            type: 'translate',
-            question: 'Переведите сочетание: «путь к мудрости» (Weg = м.р., Weisheit = ж.р.)',
-            answer: 'der Weg zur Weisheit',
-            hint: 'der Weg (м.р.), zur = zu + der (дательный)'
-          }
-        ]
-      },
-
-      // ── CHAPTER 3 ─────────────────────────────────────────────
-      {
-        number: 3,
-        theme: 'Доверие к Богу',
-        verse: {
-          ref: 'Мишлей 3:5',
-          he: 'בְּטַח אֶל יְהוָה בְּכָל לִבֶּךָ וְאֶל בִּינָתְךָ אַל תִּשָּׁעֵן',
-          ru: 'Надейся на Господа всем сердцем твоим и не полагайся на разум твой.',
-          de: 'Vertraue dem HERRN von ganzem Herzen und stütze dich nicht auf deinen Verstand.'
-        },
-        grammar: {
-          topic: 'Модальные глаголы: können, müssen, sollen',
-          explanation:
-            'Модальные глаголы добавляют оттенок к действию: können (мочь/уметь), müssen (быть должным/обязанным), sollen (следует/велено). Как притча учит не полагаться лишь на себя — так и модальный глагол указывает, что инфинитив ставится в конец предложения.',
-          formula:
-            'können (мочь):   ich kann, du kannst, er/sie/es kann\nmüssen (должен): ich muss, du musst, er/sie/es muss\nsollen (следует): ich soll,  du sollst,  er/sie/es soll\n\n→ Инфинитив всегда уходит в КОНЕЦ предложения:\n  «Ich kann Weisheit finden.»',
-          examples: [
-            { de: 'Ich kann Weisheit finden.', ru: 'Я могу найти мудрость.' },
-            { de: 'Du musst dem HERRN vertrauen.', ru: 'Ты должен доверять Господу.' },
-            { de: 'Man soll nicht auf sich selbst bauen.', ru: 'Не следует полагаться лишь на себя.' }
-          ]
-        },
-        exercises: [
-          {
-            type: 'classify',
-            question: 'Выберите правильную форму «können» для «er»:',
-            options: ['kann', 'können', 'kannst', 'könnt'],
-            answer: 'kann',
-            hint: 'er/sie/es + können → kann (без окончания)'
-          },
-          {
-            type: 'fill',
-            question: 'Du ___ dem HERRN vertrauen. (müssen)',
-            answer: 'musst',
-            hint: 'du + müssen → musst'
-          },
-          {
-            type: 'translate',
-            question: 'Переведите: «Я должен искать мудрость.»',
-            answer: 'Ich muss Weisheit suchen.',
-            hint: 'müssen → muss; suchen = искать; инфинитив — в конец'
-          }
-        ]
-      },
-
-      // ── CHAPTERS 4–31: scaffolded placeholders ────────────────
-      ...([
-        { n:4,  theme:'Ценность мудрости',         grammar:'Глагол haben в настоящем времени' },
-        { n:5,  theme:'Предостережение от греха',   grammar:'Именительный и винительный падежи' },
-        { n:6,  theme:'Трудолюбие',                 grammar:'Отделяемые приставки' },
-        { n:7,  theme:'Благоразумие',               grammar:'Перфект: прошедшее время' },
-        { n:8,  theme:'Зов мудрости',               grammar:'Претерит: sein и haben' },
-        { n:9,  theme:'Пир мудрости',               grammar:'Прилагательные после артикля' },
-        { n:10, theme:'Противоположности',          grammar:'Множественное число существительных' },
-        { n:11, theme:'Честность',                  grammar:'Предлоги с дательным падежом' },
-        { n:12, theme:'Слово и дело',               grammar:'Предлоги с винительным падежом' },
-        { n:13, theme:'Мудрость в доме',            grammar:'Двойные предлоги (Wechselpräpositionen)' },
-        { n:14, theme:'Добрые слова',               grammar:'Возвратные глаголы' },
-        { n:15, theme:'Пути Господни',              grammar:'Сравнительная степень прилагательных' },
-        { n:16, theme:'Гордость и смирение',        grammar:'Превосходная степень прилагательных' },
-        { n:17, theme:'Семейные связи',             grammar:'Придаточные предложения с dass' },
-        { n:18, theme:'Язык',                       grammar:'Относительные придаточные предложения' },
-        { n:19, theme:'Бедность и богатство',       grammar:'Страдательный залог (Passiv)' },
-        { n:20, theme:'Вино и справедливость',      grammar:'Конъюнктив II: вежливость и желания' },
-        { n:21, theme:'Сердце царя',                grammar:'Инфинитивные конструкции с zu' },
-        { n:22, theme:'Доброе имя',                 grammar:'Родительный падеж' },
-        { n:23, theme:'Умеренность',                grammar:'Словообразование: приставки' },
-        { n:24, theme:'Зависть и мудрость',         grammar:'Словообразование: суффиксы' },
-        { n:25, theme:'Речи царя',                  grammar:'Числительные и даты' },
-        { n:26, theme:'Глупость',                   grammar:'Прямая и косвенная речь' },
-        { n:27, theme:'Хвала и дружба',             grammar:'Условные предложения (wenn)' },
-        { n:28, theme:'Закон',                      grammar:'Причастие I и II' },
-        { n:29, theme:'Дисциплина',                 grammar:'Futur I и Futur II' },
-        { n:30, theme:'Слова Агура',                grammar:'Союзы: weil, obwohl, damit' },
-        { n:31, theme:'Добродетельная жена',        grammar:'Обзор: все падежи и времена' }
-      ].map(({ n, theme, grammar }) => ({
-        number: n,
-        theme,
-        placeholder: true,
-        verse: {
-          ref: `Мишлей ${n}:1`,
-          he: '…',
-          ru: `(Содержание главы ${n} — в разработке)`,
-          de: `(Kapitel ${n} — in Entwicklung)`
-        },
-        grammar: {
-          topic: grammar,
-          explanation:
-            'Этот раздел находится в разработке. Пройдите главы 1–3, чтобы открыть продвинутые темы.',
-          formula: '— готовится —',
-          examples: [
-            { de: '(Пример появится после разработки)', ru: '' }
-          ]
-        },
-        exercises: [
-          {
-            type: 'fill',
-            question: `Введите любое немецкое слово, чтобы отметить главу ${n} пройденной (контент в разработке).`,
-            answer: '*',
-            hint: 'Любой ответ засчитывается'
-          }
-        ]
-      })))
-    ]
-  }
+/** In-memory cache so each file is fetched at most once */
+const cache = {
+  books: null,          // { [bookId]: BookMeta }
+  chapterIndex: {},     // { [bookId]: ChapterStub[] }
+  chapters: {}          // { ['bookId/num']: ChapterData }
 };
+
+async function fetchJSON(path) {
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText} — ${path}`);
+  return res.json();
+}
+
+async function loadBooks() {
+  if (!cache.books) {
+    cache.books = await fetchJSON('data/books.json');
+  }
+  return cache.books;
+}
+
+async function loadChapterIndex(bookId) {
+  if (!cache.chapterIndex[bookId]) {
+    const book = cache.books[bookId];
+    cache.chapterIndex[bookId] = await fetchJSON(`${book.dataPath}/index.json`);
+  }
+  return cache.chapterIndex[bookId];
+}
+
+async function loadChapter(bookId, num) {
+  const key = `${bookId}/${num}`;
+  if (!cache.chapters[key]) {
+    const book = cache.books[bookId];
+    const file = String(num).padStart(2, '0');
+    cache.chapters[key] = await fetchJSON(`${book.dataPath}/ch${file}.json`);
+  }
+  return cache.chapters[key];
+}
 
 // ================================================================
 // STATE
 // ================================================================
 const state = {
-  view: 'bookSelect',       // 'bookSelect' | 'chapterMap' | 'lesson' | 'progress'
-  currentBook: null,
-  currentChapter: null,
-  currentStep: 0,           // 0=verse 1=grammar 2=exercises
+  view: 'bookSelect',   // 'bookSelect' | 'chapterMap' | 'lesson' | 'progress'
+  currentBook: null,    // bookId string
+  currentChapter: null, // chapter number
+  currentStep: 0,       // 0=verse 1=grammar 2=exercises
   currentExercise: 0,
-  exState: 'question',      // 'question' | 'answered'
+  exState: 'question',  // 'question' | 'answered'
   exCorrect: false,
   selectedOption: null,
   progress: {}
@@ -793,17 +670,28 @@ function normalize(s) {
 }
 
 // ================================================================
-// RENDER
+// RENDER HELPERS
 // ================================================================
-function render() {
-  const app = document.getElementById('app');
-  switch (state.view) {
-    case 'bookSelect': app.innerHTML = viewBookSelect(); break;
-    case 'chapterMap': app.innerHTML = viewChapterMap(); break;
-    case 'lesson':     app.innerHTML = viewLesson();     break;
-    case 'progress':   app.innerHTML = viewProgress();   break;
-  }
+function setHTML(html) {
+  document.getElementById('app').innerHTML = html;
 }
+
+function showLoading(msg = 'Загрузка…') {
+  setHTML(`<div class="loading-wrap">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">${esc(msg)}</div>
+  </div>`);
+}
+
+function showError(msg, retryFn) {
+  setHTML(`<div class="error-card">
+    <div class="error-title">Ошибка загрузки</div>
+    <div class="error-msg">${esc(msg)}</div>
+    <button class="btn btn-outline" onclick="retryAction()">Попробовать снова</button>
+  </div>`);
+  window._retryAction = retryFn;
+}
+window.retryAction = () => window._retryAction && window._retryAction();
 
 // ── Nav bar ───────────────────────────────────────────────────
 function navBar(active) {
@@ -817,70 +705,81 @@ function navBar(active) {
   </nav>`;
 }
 
+// ================================================================
+// VIEWS
+// ================================================================
+
 // ── BookSelect ────────────────────────────────────────────────
-function viewBookSelect() {
-  const cards = Object.values(BOOKS).map(b => {
+function renderBookSelect() {
+  const books = cache.books;
+  const cards = Object.values(books).map(b => {
     const done = doneCount(b.id);
-    return `<div class="book-card" onclick="selectBook('${b.id}')">
+    return `<div class="book-card" onclick="selectBook('${esc(b.id)}')">
       <div class="book-name-he">${esc(b.nameHe)}</div>
       <div class="book-name-ru">${esc(b.name)}</div>
       <div class="book-name-de">${esc(b.nameDe)}</div>
       <div style="margin-top:10px;font-size:.82rem;opacity:.65;">${esc(b.description)}</div>
-      <div class="book-meta">${done} / ${b.chapters.length} глав завершено →</div>
+      <div class="book-meta">${done} / ${b.chaptersCount} глав завершено →</div>
     </div>`;
   }).join('');
-  return `<div>
+  setHTML(`<div>
     ${navBar('bookSelect')}
     <header class="app-header">
       <h1 class="app-title">Weisheit auf Deutsch</h1>
       <p class="app-subtitle">Немецкая грамматика через книги мудрости</p>
     </header>
     ${cards}
-  </div>`;
+  </div>`);
 }
 
 // ── ChapterMap ────────────────────────────────────────────────
-function viewChapterMap() {
-  const book = BOOKS[state.currentBook];
-  if (!book) return viewBookSelect();
+function renderChapterMap() {
+  const book = cache.books[state.currentBook];
+  const index = cache.chapterIndex[state.currentBook];
   const done = doneCount(book.id);
-  const cells = book.chapters.map(ch => {
-    const complete = isDone(book.id, ch.number);
-    const unlocked = isUnlocked(book.id, ch.number);
+
+  const cells = index.map(stub => {
+    const complete = isDone(book.id, stub.number);
+    const unlocked = isUnlocked(book.id, stub.number);
     const cls = [complete?'completed':'', !unlocked?'locked':''].filter(Boolean).join(' ');
-    return `<div class="chapter-card ${cls}" onclick="${unlocked?`startChapter(${ch.number})`:''}" title="${esc(ch.theme)}">
-      <div class="ch-num">${ch.number}</div>
-      <div class="ch-theme">${esc(ch.theme)}</div>
+    return `<div class="chapter-card ${cls}"
+      onclick="${unlocked?`startChapter(${stub.number})`:''}"
+      title="${esc(stub.theme)}">
+      <div class="ch-num">${stub.number}</div>
+      <div class="ch-theme">${esc(stub.theme)}</div>
       <div class="ch-check">${complete?'✓':(!unlocked?'🔒':'')}</div>
     </div>`;
   }).join('');
+
   const hint = done === 0 ? 'Начните с первой главы'
     : `${done} ${plural(done,'глава','главы','глав')} завершено`;
-  return `<div>
+
+  setHTML(`<div>
     ${navBar('chapterMap')}
     <div class="map-header">
       <span class="map-title">${esc(book.name)}</span>
-      <span class="map-count">${done}/${book.chapters.length}</span>
+      <span class="map-count">${done}/${book.chaptersCount}</span>
     </div>
     <div class="map-hint">${hint}</div>
     <div class="chapter-grid">${cells}</div>
-  </div>`;
+  </div>`);
 }
 
 // ── Lesson ────────────────────────────────────────────────────
-function viewLesson() {
-  const book = BOOKS[state.currentBook];
-  const ch = book.chapters[state.currentChapter - 1];
+function renderLesson() {
+  const ch = cache.chapters[`${state.currentBook}/${state.currentChapter}`];
   const stepNames = ['Стих', 'Грамматика', 'Упражнения'];
   const dots = [0,1,2].map(i => {
     const cls = i < state.currentStep ? 'done' : i === state.currentStep ? 'active' : '';
     return `<div class="step-dot ${cls}"></div>`;
   }).join('');
+
   let content;
   if (state.currentStep === 0) content = renderVerse(ch);
   else if (state.currentStep === 1) content = renderGrammar(ch);
   else content = renderExercises(ch);
-  return `<div>
+
+  setHTML(`<div>
     <div class="lesson-nav">
       <button class="back-btn" onclick="goTo('chapterMap')">← Назад</button>
       <div class="lesson-meta">
@@ -891,14 +790,14 @@ function viewLesson() {
     </div>
     <div class="step-label">${stepNames[state.currentStep]}</div>
     ${content}
-  </div>`;
+  </div>`);
 }
 
 function renderVerse(ch) {
-  const placeholderNote = ch.placeholder
+  const notice = ch.placeholder
     ? `<div class="placeholder-notice">⚠ Полный текст этой главы находится в разработке.</div>` : '';
   return `<div class="card">
-    ${placeholderNote}
+    ${notice}
     <div class="verse-ref">${esc(ch.verse.ref)}</div>
     <div class="verse-he">${esc(ch.verse.he)}</div>
     <div class="verse-ru">${esc(ch.verse.ru)}</div>
@@ -909,7 +808,7 @@ function renderVerse(ch) {
 
 function renderGrammar(ch) {
   const g = ch.grammar;
-  const placeholderNote = ch.placeholder
+  const notice = ch.placeholder
     ? `<div class="placeholder-notice">⚠ Грамматика этой главы в разработке.</div>` : '';
   const examplesHtml = g.examples.map((ex, i) =>
     `<div class="example-item" onclick="toggleExample(${i})" id="ex-${i}">
@@ -918,7 +817,7 @@ function renderGrammar(ch) {
     </div>`
   ).join('');
   return `<div class="card">
-    ${placeholderNote}
+    ${notice}
     <h2 class="grammar-topic">${esc(g.topic)}</h2>
     <p class="grammar-explanation">${esc(g.explanation)}</p>
     <div class="formula-box">${esc(g.formula)}</div>
@@ -957,11 +856,9 @@ function renderExercises(ch) {
 
   let feedback = '';
   if (answered) {
-    if (state.exCorrect) {
-      feedback = `<div class="feedback correct">✓ Верно!</div>`;
-    } else {
-      feedback = `<div class="feedback wrong">✗ Правильный ответ: <strong>${esc(ex.answer)}</strong><br><small>${esc(ex.hint)}</small></div>`;
-    }
+    feedback = state.exCorrect
+      ? `<div class="feedback correct">✓ Верно!</div>`
+      : `<div class="feedback wrong">✗ Правильный ответ: <strong>${esc(ex.answer)}</strong><br><small>${esc(ex.hint)}</small></div>`;
   }
 
   const actionBtn = !answered
@@ -980,17 +877,21 @@ function renderExercises(ch) {
 }
 
 // ── Progress ──────────────────────────────────────────────────
-function viewProgress() {
+function renderProgress() {
+  const books = cache.books;
   let totalDone = 0, totalAll = 0;
-  Object.values(BOOKS).forEach(b => { totalAll += b.chapters.length; totalDone += doneCount(b.id); });
+  Object.values(books).forEach(b => {
+    totalAll += b.chaptersCount;
+    totalDone += doneCount(b.id);
+  });
 
-  const booksHtml = Object.values(BOOKS).map(b => {
+  const booksHtml = Object.values(books).map(b => {
     const done = doneCount(b.id);
-    const pct = Math.round(done / b.chapters.length * 100);
+    const pct = Math.round(done / b.chaptersCount * 100);
     return `<div class="prog-book">
       <div class="prog-book-row">
         <span class="prog-book-name">${esc(b.name)}</span>
-        <span class="prog-book-count">${done}/${b.chapters.length}</span>
+        <span class="prog-book-count">${done}/${b.chaptersCount}</span>
       </div>
       <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:${pct}%"></div></div>
     </div>`;
@@ -999,7 +900,7 @@ function viewProgress() {
   const resetBtn = totalDone > 0
     ? `<button class="btn btn-outline" onclick="resetProgress()" style="margin-top:8px;">Сбросить прогресс</button>` : '';
 
-  return `<div>
+  setHTML(`<div>
     ${navBar('progress')}
     <h2 style="font-family:'Playfair Display',serif;font-size:1.75rem;margin:20px 0 0;">Мой прогресс</h2>
     <div class="stats-grid">
@@ -1008,35 +909,65 @@ function viewProgress() {
     </div>
     ${booksHtml}
     ${resetBtn}
-  </div>`;
+  </div>`);
 }
 
 // ================================================================
 // ACTIONS
 // ================================================================
-function goTo(view) {
+
+async function goTo(view) {
   state.view = view;
-  render();
   window.scrollTo(0, 0);
+  try {
+    if (view === 'bookSelect') {
+      if (!cache.books) { showLoading(); await loadBooks(); }
+      renderBookSelect();
+    } else if (view === 'chapterMap') {
+      if (!cache.chapterIndex[state.currentBook]) {
+        showLoading('Загрузка глав…');
+        await loadChapterIndex(state.currentBook);
+      }
+      renderChapterMap();
+    } else if (view === 'lesson') {
+      renderLesson();
+    } else if (view === 'progress') {
+      if (!cache.books) { showLoading(); await loadBooks(); }
+      renderProgress();
+    }
+  } catch (err) {
+    showError(err.message, () => goTo(view));
+  }
 }
 
-function selectBook(id) {
+async function selectBook(id) {
   state.currentBook = id;
-  state.view = 'chapterMap';
-  render();
-  window.scrollTo(0, 0);
+  try {
+    showLoading('Загрузка глав…');
+    await loadChapterIndex(id);
+    renderChapterMap();
+    window.scrollTo(0, 0);
+  } catch (err) {
+    showError(err.message, () => selectBook(id));
+  }
 }
 
-function startChapter(num) {
+async function startChapter(num) {
   state.currentChapter = num;
   state.currentStep = 0;
   state.currentExercise = 0;
   state.exState = 'question';
   state.exCorrect = false;
   state.selectedOption = null;
-  state.view = 'lesson';
-  render();
-  window.scrollTo(0, 0);
+  try {
+    showLoading('Загрузка урока…');
+    await loadChapter(state.currentBook, num);
+    state.view = 'lesson';
+    renderLesson();
+    window.scrollTo(0, 0);
+  } catch (err) {
+    showError(err.message, () => startChapter(num));
+  }
 }
 
 function nextStep() {
@@ -1045,7 +976,7 @@ function nextStep() {
   state.exState = 'question';
   state.exCorrect = false;
   state.selectedOption = null;
-  render();
+  renderLesson();
   window.scrollTo(0, 0);
 }
 
@@ -1058,35 +989,25 @@ function pickOpt(el) { chooseOption(el.dataset.opt); }
 function chooseOption(opt) {
   if (state.exState === 'answered') return;
   state.selectedOption = opt;
-  const book = BOOKS[state.currentBook];
-  const ch = book.chapters[state.currentChapter - 1];
+  const ch = cache.chapters[`${state.currentBook}/${state.currentChapter}`];
   const ex = ch.exercises[state.currentExercise];
   state.exCorrect = opt === ex.answer;
   state.exState = 'answered';
-  render();
+  renderLesson();
 }
 
 function checkAnswer() {
   if (state.exState === 'answered') return;
-  const book = BOOKS[state.currentBook];
-  const ch = book.chapters[state.currentChapter - 1];
+  const ch = cache.chapters[`${state.currentBook}/${state.currentChapter}`];
   const ex = ch.exercises[state.currentExercise];
-
-  // Classify type is handled by chooseOption
   if (ex.type === 'classify') return;
-
   const input = document.getElementById('ans-input');
   if (!input || !input.value.trim()) return;
-  const userVal = input.value.trim();
-
-  // Placeholder chapters accept any non-empty answer
-  if (ex.answer === '*') {
-    state.exCorrect = true;
-  } else {
-    state.exCorrect = normalize(userVal) === normalize(ex.answer);
-  }
+  state.exCorrect = ex.answer === '*'
+    ? true
+    : normalize(input.value.trim()) === normalize(ex.answer);
   state.exState = 'answered';
-  render();
+  renderLesson();
   window.scrollTo(0, 0);
 }
 
@@ -1095,18 +1016,17 @@ function nextExercise() {
   state.exState = 'question';
   state.exCorrect = false;
   state.selectedOption = null;
-  render();
+  renderLesson();
   window.scrollTo(0, 0);
 }
 
 function finishChapter() {
   markDone(state.currentBook, state.currentChapter);
-  const book = BOOKS[state.currentBook];
-  const ch = book.chapters[state.currentChapter - 1];
+  const book = cache.books[state.currentBook];
+  const ch = cache.chapters[`${state.currentBook}/${state.currentChapter}`];
   const nextNum = state.currentChapter + 1;
-  const hasNext = nextNum <= book.chapters.length;
-  const app = document.getElementById('app');
-  app.innerHTML = `<div class="completion-wrap">
+  const hasNext = nextNum <= book.chaptersCount;
+  setHTML(`<div class="completion-wrap">
     <div class="completion-card">
       <div class="completion-icon">⭐</div>
       <h2 class="completion-title">Глава ${ch.number} завершена!</h2>
@@ -1118,7 +1038,7 @@ function finishChapter() {
         <button class="btn btn-outline" onclick="goTo('chapterMap')">К списку глав</button>
       </div>
     </div>
-  </div>`;
+  </div>`);
   window.scrollTo(0, 0);
 }
 
@@ -1126,14 +1046,14 @@ function resetProgress() {
   if (!confirm('Вы уверены? Весь прогресс будет удалён.')) return;
   state.progress = {};
   saveProgress();
-  render();
+  renderProgress();
 }
 
 // ================================================================
 // INIT
 // ================================================================
 loadProgress();
-render();
+goTo('bookSelect');
 </script>
 </body>
 </html>

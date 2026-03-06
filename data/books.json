@@ -1,0 +1,11 @@
+{
+  "mishlei": {
+    "id": "mishlei",
+    "name": "Мишлей / Притчи",
+    "nameHe": "מִשְׁלֵי שְׁלֹמֹה",
+    "nameDe": "Das Buch der Sprichwörter",
+    "description": "Книга мудрости царя Соломона — 31 глава",
+    "chaptersCount": 31,
+    "dataPath": "data/mishlei"
+  }
+}
