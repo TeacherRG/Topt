@@ -1,0 +1,41 @@
+{
+  "number": 2,
+  "theme": "Поиск мудрости",
+  "verse": {
+    "ref": "Мишлей 2:6",
+    "he": "כִּי יְהוָה יִתֵּן חָכְמָה מִפִּיו דַּעַת וּתְבוּנָה",
+    "ru": "Ибо Господь даёт мудрость; из уст Его — знание и разумение.",
+    "de": "Denn der HERR gibt Weisheit; aus seinem Mund kommen Erkenntnis und Einsicht."
+  },
+  "grammar": {
+    "topic": "Артикли: der, die, das",
+    "explanation": "В немецком языке каждое существительное несёт грамматический род: мужской (der), женский (die) или средний (das). Как мудрость даётся свыше — так и род существительного «даётся» словарём. Запоминайте слово вместе с артиклем.",
+    "formula": "der → мужской род  (Maskulinum)\ndie → женский род  (Femininum)\ndas → средний род  (Neutrum)\ndie → множественное число (все роды)",
+    "examples": [
+      { "de": "der Weg", "ru": "путь (м.р.) — der: der Mann, der Tag, der Sohn" },
+      { "de": "die Weisheit", "ru": "мудрость (ж.р.) — die: die Frau, die Nacht, die Seele" },
+      { "de": "das Herz", "ru": "сердце (ср.р.) — das: das Kind, das Buch, das Licht" }
+    ]
+  },
+  "exercises": [
+    {
+      "type": "classify",
+      "question": "Какой артикль у слова «Weisheit» (мудрость)?",
+      "options": ["der", "die", "das", "den"],
+      "answer": "die",
+      "hint": "Суффикс -heit → всегда женский род (die)"
+    },
+    {
+      "type": "fill",
+      "question": "___ Kind sucht Weisheit. (das — ср. род)",
+      "answer": "Das",
+      "hint": "Kind = ребёнок → средний род → Das (с заглавной в начале предложения)"
+    },
+    {
+      "type": "translate",
+      "question": "Переведите сочетание: «путь к мудрости» (Weg = м.р., Weisheit = ж.р.)",
+      "answer": "der Weg zur Weisheit",
+      "hint": "der Weg (м.р.), zur = zu + der (дательный)"
+    }
+  ]
+}
