@@ -1,1 +1,1139 @@
-div
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weisheit auf Deutsch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f5f0e8;
+      --ink: #1a1208;
+      --gold: #c8922a;
+      --rust: #8b3a2a;
+      --sage: #4a6741;
+      --paper-dark: #e0d8c8;
+      --shadow: rgba(26,18,8,0.12);
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      background-color: var(--paper);
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+      color: var(--ink);
+      font-family: 'IBM Plex Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    #app {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 16px 60px;
+    }
+
+    /* ── NAV ── */
+    .nav-bar {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      padding: 12px 0 0;
+    }
+    .nav-btn {
+      padding: 7px 14px;
+      border: none;
+      background: transparent;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: var(--ink);
+      opacity: .55;
+      border-radius: 6px;
+      transition: all .18s;
+    }
+    .nav-btn:hover, .nav-btn.active { opacity: 1; background: var(--paper-dark); }
+    .nav-btn:disabled { cursor: default; opacity: .3; }
+
+    /* ── HEADER ── */
+    .app-header {
+      text-align: center;
+      padding: 32px 0 28px;
+    }
+    .app-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      letter-spacing: -.5px;
+      color: var(--ink);
+    }
+    .app-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: .92rem;
+      font-style: italic;
+      color: var(--rust);
+      margin-top: 6px;
+    }
+
+    /* ── BOOK CARD ── */
+    .book-card {
+      background: #fff;
+      border: 1.5px solid var(--paper-dark);
+      border-radius: 14px;
+      padding: 28px 28px 22px;
+      cursor: pointer;
+      transition: all .2s;
+      box-shadow: 0 2px 10px var(--shadow);
+      margin-bottom: 14px;
+    }
+    .book-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px var(--shadow);
+      border-color: var(--gold);
+    }
+    .book-name-he {
+      font-size: 1.9rem;
+      direction: rtl;
+      text-align: right;
+      font-family: serif;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .book-name-ru {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--rust);
+    }
+    .book-name-de {
+      font-size: .85rem;
+      color: var(--sage);
+      font-style: italic;
+      margin-top: 3px;
+    }
+    .book-meta {
+      margin-top: 10px;
+      font-size: .8rem;
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--gold);
+    }
+
+    /* ── CHAPTER MAP ── */
+    .map-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin: 20px 0 6px;
+    }
+    .map-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+    }
+    .map-count {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .8rem;
+      color: var(--gold);
+    }
+    .map-hint {
+      font-size: .82rem;
+      color: var(--sage);
+      margin-bottom: 18px;
+    }
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 9px;
+    }
+    .chapter-card {
+      background: #fff;
+      border: 1.5px solid var(--paper-dark);
+      border-radius: 9px;
+      padding: 10px 6px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .18s;
+      user-select: none;
+    }
+    .chapter-card:hover:not(.locked) {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+    .chapter-card.completed {
+      background: var(--sage);
+      border-color: var(--sage);
+      color: #fff;
+    }
+    .chapter-card.locked {
+      opacity: .48;
+      cursor: not-allowed;
+    }
+    .ch-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+    .ch-theme {
+      font-size: .6rem;
+      margin-top: 4px;
+      line-height: 1.3;
+      opacity: .8;
+    }
+    .ch-check { font-size: .75rem; margin-top: 3px; }
+
+    /* ── LESSON NAV ── */
+    .lesson-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0 12px;
+      border-bottom: 1px solid var(--paper-dark);
+      margin-bottom: 20px;
+      gap: 8px;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--rust);
+      font-size: .85rem;
+      cursor: pointer;
+      font-family: 'IBM Plex Sans', sans-serif;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .lesson-meta { text-align: center; flex: 1; }
+    .lesson-ch-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .lesson-ch-theme {
+      font-family: 'Playfair Display', serif;
+      font-size: .95rem;
+    }
+    .step-dots {
+      display: flex;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+    .step-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--paper-dark);
+      transition: background .2s;
+    }
+    .step-dot.active { background: var(--gold); }
+    .step-dot.done { background: var(--sage); }
+
+    .step-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: #fff;
+      border-radius: 13px;
+      padding: 28px;
+      box-shadow: 0 2px 10px var(--shadow);
+    }
+
+    /* ── VERSE ── */
+    .verse-ref {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .verse-he {
+      font-size: 1.65rem;
+      direction: rtl;
+      text-align: right;
+      line-height: 1.75;
+      font-family: serif;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--paper-dark);
+      margin-bottom: 16px;
+    }
+    .verse-ru {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: .98rem;
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+    .verse-de {
+      font-family: 'Playfair Display', serif;
+      font-size: .98rem;
+      line-height: 1.7;
+      color: var(--rust);
+    }
+
+    /* ── GRAMMAR ── */
+    .grammar-topic {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem;
+      margin-bottom: 14px;
+    }
+    .grammar-explanation {
+      font-size: .93rem;
+      line-height: 1.75;
+      margin-bottom: 22px;
+      opacity: .9;
+    }
+    .formula-box {
+      background: var(--paper-dark);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 9px 9px 0;
+      padding: 15px 18px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .84rem;
+      line-height: 1.7;
+      margin-bottom: 22px;
+      white-space: pre-wrap;
+    }
+    .examples-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .68rem;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 10px;
+    }
+    .example-item {
+      background: var(--paper);
+      border: 1.5px solid var(--paper-dark);
+      border-radius: 8px;
+      padding: 11px 14px;
+      margin-bottom: 7px;
+      cursor: pointer;
+      transition: border-color .18s;
+    }
+    .example-item:hover { border-color: var(--gold); }
+    .example-de { font-size: .96rem; }
+    .example-ru {
+      font-size: .83rem;
+      color: var(--rust);
+      margin-top: 5px;
+      display: none;
+    }
+    .example-item.revealed .example-ru { display: block; }
+    .example-hint {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .68rem;
+      color: var(--sage);
+      margin-top: 4px;
+      display: none;
+    }
+    .example-item.revealed .example-hint { display: block; }
+
+    /* ── EXERCISES ── */
+    .ex-progress {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .72rem;
+      color: var(--sage);
+      margin-bottom: 18px;
+    }
+    .ex-question {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.08rem;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-bottom: 16px;
+    }
+    .opt-btn {
+      padding: 11px 8px;
+      border: 2px solid var(--paper-dark);
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: .95rem;
+      transition: all .18s;
+    }
+    .opt-btn:hover:not(:disabled) { border-color: var(--gold); }
+    .opt-btn.correct { border-color: var(--sage); background: rgba(74,103,65,.1); color: var(--sage); font-weight: 600; }
+    .opt-btn.wrong { border-color: var(--rust); background: rgba(139,58,42,.08); color: var(--rust); }
+    .opt-btn.dim { opacity: .4; }
+    .answer-input {
+      width: 100%;
+      padding: 11px 15px;
+      border: 2px solid var(--paper-dark);
+      border-radius: 8px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: .96rem;
+      background: var(--paper);
+      margin-bottom: 12px;
+      transition: border-color .18s;
+      color: var(--ink);
+    }
+    .answer-input:focus { outline: none; border-color: var(--gold); }
+    .answer-input.correct { border-color: var(--sage); background: rgba(74,103,65,.05); }
+    .answer-input.wrong { border-color: var(--rust); background: rgba(139,58,42,.05); }
+    .feedback {
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-size: .88rem;
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+    .feedback.correct { background: rgba(74,103,65,.1); color: var(--sage); border: 1px solid var(--sage); }
+    .feedback.wrong { background: rgba(139,58,42,.08); color: var(--rust); border: 1px solid var(--rust); }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-block;
+      padding: 11px 26px;
+      border-radius: 8px;
+      border: none;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: .92rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .18s;
+      text-align: center;
+    }
+    .btn-primary { background: var(--ink); color: var(--paper); }
+    .btn-primary:hover { background: #2e2010; }
+    .btn-gold { background: var(--gold); color: #fff; }
+    .btn-gold:hover { background: #b8801f; }
+    .btn-outline { background: transparent; border: 2px solid var(--ink); color: var(--ink); }
+    .btn-outline:hover { background: var(--paper-dark); }
+    .btn-block { display: block; width: 100%; }
+    .btn-row { display: flex; justify-content: flex-end; margin-top: 24px; }
+
+    /* ── PROGRESS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0 22px;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 22px;
+      text-align: center;
+      box-shadow: 0 2px 10px var(--shadow);
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-lbl { font-size: .82rem; opacity: .65; margin-top: 5px; }
+
+    .prog-book {
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 10px var(--shadow);
+      margin-bottom: 14px;
+    }
+    .prog-book-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .prog-book-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+    }
+    .prog-book-count {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .8rem;
+      color: var(--gold);
+    }
+    .prog-bar-bg {
+      background: var(--paper-dark);
+      border-radius: 4px;
+      height: 7px;
+      overflow: hidden;
+    }
+    .prog-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--sage);
+      transition: width .6s ease;
+    }
+
+    /* ── COMPLETION ── */
+    .completion-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 75vh;
+    }
+    .completion-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 44px 36px;
+      text-align: center;
+      box-shadow: 0 4px 20px var(--shadow);
+      max-width: 400px;
+      width: 100%;
+    }
+    .completion-icon { font-size: 3rem; margin-bottom: 14px; }
+    .completion-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      margin-bottom: 10px;
+    }
+    .completion-text { opacity: .65; margin-bottom: 26px; font-size: .93rem; }
+    .completion-btns { display: flex; flex-direction: column; gap: 10px; }
+
+    /* ── PLACEHOLDER CHAPTER ── */
+    .placeholder-notice {
+      background: rgba(200,146,42,.08);
+      border: 1px solid rgba(200,146,42,.3);
+      border-radius: 9px;
+      padding: 14px 18px;
+      font-size: .86rem;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .app-title { font-size: 1.75rem; }
+      .chapter-grid { grid-template-columns: repeat(5, 1fr); gap: 7px; }
+      .chapter-card { padding: 8px 4px 6px; }
+      .ch-theme { display: none; }
+      .card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+'use strict';
+
+// ================================================================
+// DATA
+// ================================================================
+const BOOKS = {
+  mishlei: {
+    id: 'mishlei',
+    name: 'Мишлей / Притчи',
+    nameHe: 'מִשְׁלֵי שְׁלֹמֹה',
+    nameDe: 'Das Buch der Sprichwörter',
+    description: 'Книга мудрости царя Соломона — 31 глава',
+    chapters: [
+      // ── CHAPTER 1 ─────────────────────────────────────────────
+      {
+        number: 1,
+        theme: 'Начало мудрости',
+        verse: {
+          ref: 'Мишлей 1:7',
+          he: 'יִרְאַת יְהוָה רֵאשִׁית דָּעַת חָכְמָה וּמוּסָר אֱוִילִים בָּזוּ',
+          ru: 'Страх Господень — начало познания; мудрость и наставление презирают глупцы.',
+          de: 'Die Furcht des HERRN ist der Anfang der Erkenntnis; Weisheit und Zucht verachten die Toren.'
+        },
+        grammar: {
+          topic: 'Глагол sein — «быть» в настоящем времени',
+          explanation:
+            'Глагол sein («быть») — самый важный глагол немецкого языка. Он стоит у истоков грамматики, как страх Господень — у истоков мудрости. Sein описывает качества, состояния и принадлежность.',
+          formula:
+            'ich bin     → я есть\ndu bist     → ты есть\ner/sie/es ist → он/она/оно есть\nwir sind    → мы есть\nihr seid    → вы (неформ.) есть\nsie/Sie sind → они / Вы есть',
+          examples: [
+            { de: 'Die Weisheit ist wertvoll.', ru: 'Мудрость ценна.' },
+            { de: 'Ich bin ein Schüler.', ru: 'Я — ученик.' },
+            { de: 'Wir sind auf dem Weg der Erkenntnis.', ru: 'Мы — на пути познания.' }
+          ]
+        },
+        exercises: [
+          {
+            type: 'fill',
+            question: 'Die Weisheit ___ der Anfang des Lebens. (sein)',
+            answer: 'ist',
+            hint: '3-е лицо, ед. число → ist'
+          },
+          {
+            type: 'classify',
+            question: 'Выберите правильную форму для «Wir ___ weise»:',
+            options: ['bin', 'sind', 'ist', 'seid'],
+            answer: 'sind',
+            hint: 'Wir (мы) → sind'
+          },
+          {
+            type: 'translate',
+            question: 'Переведите: «Страх Господень — начало мудрости.»',
+            answer: 'Die Furcht des HERRN ist der Anfang der Weisheit.',
+            hint: 'Furcht = страх, Anfang = начало, Weisheit = мудрость'
+          }
+        ]
+      },
+
+      // ── CHAPTER 2 ─────────────────────────────────────────────
+      {
+        number: 2,
+        theme: 'Поиск мудрости',
+        verse: {
+          ref: 'Мишлей 2:6',
+          he: 'כִּי יְהוָה יִתֵּן חָכְמָה מִפִּיו דַּעַת וּתְבוּנָה',
+          ru: 'Ибо Господь даёт мудрость; из уст Его — знание и разумение.',
+          de: 'Denn der HERR gibt Weisheit; aus seinem Mund kommen Erkenntnis und Einsicht.'
+        },
+        grammar: {
+          topic: 'Артикли: der, die, das',
+          explanation:
+            'В немецком языке каждое существительное несёт грамматический род: мужской (der), женский (die) или средний (das). Как мудрость даётся свыше — так и род существительного «даётся» словарём. Запоминайте слово вместе с артиклем.',
+          formula:
+            'der → мужской род  (Maskulinum)\ndie → женский род  (Femininum)\ndas → средний род  (Neutrum)\ndie → множественное число (все роды)',
+          examples: [
+            { de: 'der Weg', ru: 'путь (м.р.) — der: der Mann, der Tag, der Sohn' },
+            { de: 'die Weisheit', ru: 'мудрость (ж.р.) — die: die Frau, die Nacht, die Seele' },
+            { de: 'das Herz', ru: 'сердце (ср.р.) — das: das Kind, das Buch, das Licht' }
+          ]
+        },
+        exercises: [
+          {
+            type: 'classify',
+            question: 'Какой артикль у слова «Weisheit» (мудрость)?',
+            options: ['der', 'die', 'das', 'den'],
+            answer: 'die',
+            hint: 'Суффикс -heit → всегда женский род (die)'
+          },
+          {
+            type: 'fill',
+            question: '___ Kind sucht Weisheit. (das — ср. род)',
+            answer: 'Das',
+            hint: 'Kind = ребёнок → средний род → Das (с заглавной в начале предложения)'
+          },
+          {
+            type: 'translate',
+            question: 'Переведите сочетание: «путь к мудрости» (Weg = м.р., Weisheit = ж.р.)',
+            answer: 'der Weg zur Weisheit',
+            hint: 'der Weg (м.р.), zur = zu + der (дательный)'
+          }
+        ]
+      },
+
+      // ── CHAPTER 3 ─────────────────────────────────────────────
+      {
+        number: 3,
+        theme: 'Доверие к Богу',
+        verse: {
+          ref: 'Мишлей 3:5',
+          he: 'בְּטַח אֶל יְהוָה בְּכָל לִבֶּךָ וְאֶל בִּינָתְךָ אַל תִּשָּׁעֵן',
+          ru: 'Надейся на Господа всем сердцем твоим и не полагайся на разум твой.',
+          de: 'Vertraue dem HERRN von ganzem Herzen und stütze dich nicht auf deinen Verstand.'
+        },
+        grammar: {
+          topic: 'Модальные глаголы: können, müssen, sollen',
+          explanation:
+            'Модальные глаголы добавляют оттенок к действию: können (мочь/уметь), müssen (быть должным/обязанным), sollen (следует/велено). Как притча учит не полагаться лишь на себя — так и модальный глагол указывает, что инфинитив ставится в конец предложения.',
+          formula:
+            'können (мочь):   ich kann, du kannst, er/sie/es kann\nmüssen (должен): ich muss, du musst, er/sie/es muss\nsollen (следует): ich soll,  du sollst,  er/sie/es soll\n\n→ Инфинитив всегда уходит в КОНЕЦ предложения:\n  «Ich kann Weisheit finden.»',
+          examples: [
+            { de: 'Ich kann Weisheit finden.', ru: 'Я могу найти мудрость.' },
+            { de: 'Du musst dem HERRN vertrauen.', ru: 'Ты должен доверять Господу.' },
+            { de: 'Man soll nicht auf sich selbst bauen.', ru: 'Не следует полагаться лишь на себя.' }
+          ]
+        },
+        exercises: [
+          {
+            type: 'classify',
+            question: 'Выберите правильную форму «können» для «er»:',
+            options: ['kann', 'können', 'kannst', 'könnt'],
+            answer: 'kann',
+            hint: 'er/sie/es + können → kann (без окончания)'
+          },
+          {
+            type: 'fill',
+            question: 'Du ___ dem HERRN vertrauen. (müssen)',
+            answer: 'musst',
+            hint: 'du + müssen → musst'
+          },
+          {
+            type: 'translate',
+            question: 'Переведите: «Я должен искать мудрость.»',
+            answer: 'Ich muss Weisheit suchen.',
+            hint: 'müssen → muss; suchen = искать; инфинитив — в конец'
+          }
+        ]
+      },
+
+      // ── CHAPTERS 4–31: scaffolded placeholders ────────────────
+      ...([
+        { n:4,  theme:'Ценность мудрости',         grammar:'Глагол haben в настоящем времени' },
+        { n:5,  theme:'Предостережение от греха',   grammar:'Именительный и винительный падежи' },
+        { n:6,  theme:'Трудолюбие',                 grammar:'Отделяемые приставки' },
+        { n:7,  theme:'Благоразумие',               grammar:'Перфект: прошедшее время' },
+        { n:8,  theme:'Зов мудрости',               grammar:'Претерит: sein и haben' },
+        { n:9,  theme:'Пир мудрости',               grammar:'Прилагательные после артикля' },
+        { n:10, theme:'Противоположности',          grammar:'Множественное число существительных' },
+        { n:11, theme:'Честность',                  grammar:'Предлоги с дательным падежом' },
+        { n:12, theme:'Слово и дело',               grammar:'Предлоги с винительным падежом' },
+        { n:13, theme:'Мудрость в доме',            grammar:'Двойные предлоги (Wechselpräpositionen)' },
+        { n:14, theme:'Добрые слова',               grammar:'Возвратные глаголы' },
+        { n:15, theme:'Пути Господни',              grammar:'Сравнительная степень прилагательных' },
+        { n:16, theme:'Гордость и смирение',        grammar:'Превосходная степень прилагательных' },
+        { n:17, theme:'Семейные связи',             grammar:'Придаточные предложения с dass' },
+        { n:18, theme:'Язык',                       grammar:'Относительные придаточные предложения' },
+        { n:19, theme:'Бедность и богатство',       grammar:'Страдательный залог (Passiv)' },
+        { n:20, theme:'Вино и справедливость',      grammar:'Конъюнктив II: вежливость и желания' },
+        { n:21, theme:'Сердце царя',                grammar:'Инфинитивные конструкции с zu' },
+        { n:22, theme:'Доброе имя',                 grammar:'Родительный падеж' },
+        { n:23, theme:'Умеренность',                grammar:'Словообразование: приставки' },
+        { n:24, theme:'Зависть и мудрость',         grammar:'Словообразование: суффиксы' },
+        { n:25, theme:'Речи царя',                  grammar:'Числительные и даты' },
+        { n:26, theme:'Глупость',                   grammar:'Прямая и косвенная речь' },
+        { n:27, theme:'Хвала и дружба',             grammar:'Условные предложения (wenn)' },
+        { n:28, theme:'Закон',                      grammar:'Причастие I и II' },
+        { n:29, theme:'Дисциплина',                 grammar:'Futur I и Futur II' },
+        { n:30, theme:'Слова Агура',                grammar:'Союзы: weil, obwohl, damit' },
+        { n:31, theme:'Добродетельная жена',        grammar:'Обзор: все падежи и времена' }
+      ].map(({ n, theme, grammar }) => ({
+        number: n,
+        theme,
+        placeholder: true,
+        verse: {
+          ref: `Мишлей ${n}:1`,
+          he: '…',
+          ru: `(Содержание главы ${n} — в разработке)`,
+          de: `(Kapitel ${n} — in Entwicklung)`
+        },
+        grammar: {
+          topic: grammar,
+          explanation:
+            'Этот раздел находится в разработке. Пройдите главы 1–3, чтобы открыть продвинутые темы.',
+          formula: '— готовится —',
+          examples: [
+            { de: '(Пример появится после разработки)', ru: '' }
+          ]
+        },
+        exercises: [
+          {
+            type: 'fill',
+            question: `Введите любое немецкое слово, чтобы отметить главу ${n} пройденной (контент в разработке).`,
+            answer: '*',
+            hint: 'Любой ответ засчитывается'
+          }
+        ]
+      })))
+    ]
+  }
+};
+
+// ================================================================
+// STATE
+// ================================================================
+const state = {
+  view: 'bookSelect',       // 'bookSelect' | 'chapterMap' | 'lesson' | 'progress'
+  currentBook: null,
+  currentChapter: null,
+  currentStep: 0,           // 0=verse 1=grammar 2=exercises
+  currentExercise: 0,
+  exState: 'question',      // 'question' | 'answered'
+  exCorrect: false,
+  selectedOption: null,
+  progress: {}
+};
+
+// ── localStorage ──────────────────────────────────────────────
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem('wad_progress');
+    if (raw) state.progress = JSON.parse(raw);
+  } catch (e) { console.warn('Could not load progress:', e); }
+}
+function saveProgress() {
+  try { localStorage.setItem('wad_progress', JSON.stringify(state.progress)); }
+  catch (e) { console.warn('Could not save progress:', e); }
+}
+function markDone(bookId, num) {
+  if (!state.progress[bookId]) state.progress[bookId] = {};
+  state.progress[bookId][num] = { done: true, at: Date.now() };
+  saveProgress();
+}
+function isDone(bookId, num) {
+  return !!(state.progress[bookId] && state.progress[bookId][num]);
+}
+function isUnlocked(bookId, num) {
+  if (num === 1) return true;
+  return isDone(bookId, num - 1);
+}
+function doneCount(bookId) {
+  return state.progress[bookId] ? Object.keys(state.progress[bookId]).length : 0;
+}
+
+// ================================================================
+// HELPERS
+// ================================================================
+function esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function plural(n, one, few, many) {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
+  return many;
+}
+function normalize(s) {
+  return s.toLowerCase().replace(/[.,!?;:]/g, '').replace(/\s+/g, ' ').trim();
+}
+
+// ================================================================
+// RENDER
+// ================================================================
+function render() {
+  const app = document.getElementById('app');
+  switch (state.view) {
+    case 'bookSelect': app.innerHTML = viewBookSelect(); break;
+    case 'chapterMap': app.innerHTML = viewChapterMap(); break;
+    case 'lesson':     app.innerHTML = viewLesson();     break;
+    case 'progress':   app.innerHTML = viewProgress();   break;
+  }
+}
+
+// ── Nav bar ───────────────────────────────────────────────────
+function navBar(active) {
+  const mapDisabled = !state.currentBook;
+  return `<nav class="nav-bar">
+    <button class="nav-btn${active==='bookSelect'?' active':''}" onclick="goTo('bookSelect')">📚 Книги</button>
+    <button class="nav-btn${active==='chapterMap'?' active':''}"
+      onclick="${mapDisabled?'':"goTo('chapterMap')"}"
+      ${mapDisabled?'disabled':''}>🗺 Главы</button>
+    <button class="nav-btn${active==='progress'?' active':''}" onclick="goTo('progress')">📊 Прогресс</button>
+  </nav>`;
+}
+
+// ── BookSelect ────────────────────────────────────────────────
+function viewBookSelect() {
+  const cards = Object.values(BOOKS).map(b => {
+    const done = doneCount(b.id);
+    return `<div class="book-card" onclick="selectBook('${b.id}')">
+      <div class="book-name-he">${esc(b.nameHe)}</div>
+      <div class="book-name-ru">${esc(b.name)}</div>
+      <div class="book-name-de">${esc(b.nameDe)}</div>
+      <div style="margin-top:10px;font-size:.82rem;opacity:.65;">${esc(b.description)}</div>
+      <div class="book-meta">${done} / ${b.chapters.length} глав завершено →</div>
+    </div>`;
+  }).join('');
+  return `<div>
+    ${navBar('bookSelect')}
+    <header class="app-header">
+      <h1 class="app-title">Weisheit auf Deutsch</h1>
+      <p class="app-subtitle">Немецкая грамматика через книги мудрости</p>
+    </header>
+    ${cards}
+  </div>`;
+}
+
+// ── ChapterMap ────────────────────────────────────────────────
+function viewChapterMap() {
+  const book = BOOKS[state.currentBook];
+  if (!book) return viewBookSelect();
+  const done = doneCount(book.id);
+  const cells = book.chapters.map(ch => {
+    const complete = isDone(book.id, ch.number);
+    const unlocked = isUnlocked(book.id, ch.number);
+    const cls = [complete?'completed':'', !unlocked?'locked':''].filter(Boolean).join(' ');
+    return `<div class="chapter-card ${cls}" onclick="${unlocked?`startChapter(${ch.number})`:''}" title="${esc(ch.theme)}">
+      <div class="ch-num">${ch.number}</div>
+      <div class="ch-theme">${esc(ch.theme)}</div>
+      <div class="ch-check">${complete?'✓':(!unlocked?'🔒':'')}</div>
+    </div>`;
+  }).join('');
+  const hint = done === 0 ? 'Начните с первой главы'
+    : `${done} ${plural(done,'глава','главы','глав')} завершено`;
+  return `<div>
+    ${navBar('chapterMap')}
+    <div class="map-header">
+      <span class="map-title">${esc(book.name)}</span>
+      <span class="map-count">${done}/${book.chapters.length}</span>
+    </div>
+    <div class="map-hint">${hint}</div>
+    <div class="chapter-grid">${cells}</div>
+  </div>`;
+}
+
+// ── Lesson ────────────────────────────────────────────────────
+function viewLesson() {
+  const book = BOOKS[state.currentBook];
+  const ch = book.chapters[state.currentChapter - 1];
+  const stepNames = ['Стих', 'Грамматика', 'Упражнения'];
+  const dots = [0,1,2].map(i => {
+    const cls = i < state.currentStep ? 'done' : i === state.currentStep ? 'active' : '';
+    return `<div class="step-dot ${cls}"></div>`;
+  }).join('');
+  let content;
+  if (state.currentStep === 0) content = renderVerse(ch);
+  else if (state.currentStep === 1) content = renderGrammar(ch);
+  else content = renderExercises(ch);
+  return `<div>
+    <div class="lesson-nav">
+      <button class="back-btn" onclick="goTo('chapterMap')">← Назад</button>
+      <div class="lesson-meta">
+        <div class="lesson-ch-label">Глава ${ch.number}</div>
+        <div class="lesson-ch-theme">${esc(ch.theme)}</div>
+      </div>
+      <div class="step-dots">${dots}</div>
+    </div>
+    <div class="step-label">${stepNames[state.currentStep]}</div>
+    ${content}
+  </div>`;
+}
+
+function renderVerse(ch) {
+  const placeholderNote = ch.placeholder
+    ? `<div class="placeholder-notice">⚠ Полный текст этой главы находится в разработке.</div>` : '';
+  return `<div class="card">
+    ${placeholderNote}
+    <div class="verse-ref">${esc(ch.verse.ref)}</div>
+    <div class="verse-he">${esc(ch.verse.he)}</div>
+    <div class="verse-ru">${esc(ch.verse.ru)}</div>
+    <div class="verse-de">${esc(ch.verse.de)}</div>
+    <div class="btn-row"><button class="btn btn-primary" onclick="nextStep()">Далее →</button></div>
+  </div>`;
+}
+
+function renderGrammar(ch) {
+  const g = ch.grammar;
+  const placeholderNote = ch.placeholder
+    ? `<div class="placeholder-notice">⚠ Грамматика этой главы в разработке.</div>` : '';
+  const examplesHtml = g.examples.map((ex, i) =>
+    `<div class="example-item" onclick="toggleExample(${i})" id="ex-${i}">
+      <div class="example-de">${esc(ex.de)}</div>
+      <div class="example-ru">${esc(ex.ru)}</div>
+    </div>`
+  ).join('');
+  return `<div class="card">
+    ${placeholderNote}
+    <h2 class="grammar-topic">${esc(g.topic)}</h2>
+    <p class="grammar-explanation">${esc(g.explanation)}</p>
+    <div class="formula-box">${esc(g.formula)}</div>
+    <div class="examples-title">Примеры — нажмите для перевода</div>
+    ${examplesHtml}
+    <div class="btn-row"><button class="btn btn-primary" onclick="nextStep()">Далее →</button></div>
+  </div>`;
+}
+
+function renderExercises(ch) {
+  const exs = ch.exercises;
+  const ex = exs[state.currentExercise];
+  const total = exs.length;
+  const answered = state.exState === 'answered';
+  const isLast = state.currentExercise === total - 1;
+
+  let inputHtml = '';
+  if (ex.type === 'classify') {
+    inputHtml = `<div class="options-grid">${ex.options.map(opt => {
+      let cls = '';
+      if (answered) {
+        if (opt === ex.answer) cls = 'correct';
+        else if (opt === state.selectedOption) cls = 'wrong';
+        else cls = 'dim';
+      }
+      return `<button class="opt-btn ${cls}" data-opt="${esc(opt)}"
+        onclick="${answered?'':'pickOpt(this)'}"
+        ${answered?'disabled':''}>${esc(opt)}</button>`;
+    }).join('')}</div>`;
+  } else {
+    const inputCls = answered ? (state.exCorrect ? 'correct' : 'wrong') : '';
+    inputHtml = `<input type="text" id="ans-input" class="answer-input ${inputCls}"
+      placeholder="Ваш ответ…" ${answered?'disabled':''}
+      onkeydown="if(event.key==='Enter')checkAnswer()">`;
+  }
+
+  let feedback = '';
+  if (answered) {
+    if (state.exCorrect) {
+      feedback = `<div class="feedback correct">✓ Верно!</div>`;
+    } else {
+      feedback = `<div class="feedback wrong">✗ Правильный ответ: <strong>${esc(ex.answer)}</strong><br><small>${esc(ex.hint)}</small></div>`;
+    }
+  }
+
+  const actionBtn = !answered
+    ? `<button class="btn btn-gold btn-block" onclick="checkAnswer()">Проверить</button>`
+    : isLast
+      ? `<button class="btn btn-gold btn-block" onclick="finishChapter()">Завершить главу ✓</button>`
+      : `<button class="btn btn-primary btn-block" onclick="nextExercise()">Следующее →</button>`;
+
+  return `<div class="card">
+    <div class="ex-progress">Упражнение ${state.currentExercise + 1} / ${total}</div>
+    <div class="ex-question">${esc(ex.question)}</div>
+    ${inputHtml}
+    ${feedback}
+    ${actionBtn}
+  </div>`;
+}
+
+// ── Progress ──────────────────────────────────────────────────
+function viewProgress() {
+  let totalDone = 0, totalAll = 0;
+  Object.values(BOOKS).forEach(b => { totalAll += b.chapters.length; totalDone += doneCount(b.id); });
+
+  const booksHtml = Object.values(BOOKS).map(b => {
+    const done = doneCount(b.id);
+    const pct = Math.round(done / b.chapters.length * 100);
+    return `<div class="prog-book">
+      <div class="prog-book-row">
+        <span class="prog-book-name">${esc(b.name)}</span>
+        <span class="prog-book-count">${done}/${b.chapters.length}</span>
+      </div>
+      <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+
+  const resetBtn = totalDone > 0
+    ? `<button class="btn btn-outline" onclick="resetProgress()" style="margin-top:8px;">Сбросить прогресс</button>` : '';
+
+  return `<div>
+    ${navBar('progress')}
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.75rem;margin:20px 0 0;">Мой прогресс</h2>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num">${totalDone}</div><div class="stat-lbl">Глав завершено</div></div>
+      <div class="stat-card"><div class="stat-num">${totalAll - totalDone}</div><div class="stat-lbl">Глав осталось</div></div>
+    </div>
+    ${booksHtml}
+    ${resetBtn}
+  </div>`;
+}
+
+// ================================================================
+// ACTIONS
+// ================================================================
+function goTo(view) {
+  state.view = view;
+  render();
+  window.scrollTo(0, 0);
+}
+
+function selectBook(id) {
+  state.currentBook = id;
+  state.view = 'chapterMap';
+  render();
+  window.scrollTo(0, 0);
+}
+
+function startChapter(num) {
+  state.currentChapter = num;
+  state.currentStep = 0;
+  state.currentExercise = 0;
+  state.exState = 'question';
+  state.exCorrect = false;
+  state.selectedOption = null;
+  state.view = 'lesson';
+  render();
+  window.scrollTo(0, 0);
+}
+
+function nextStep() {
+  state.currentStep++;
+  state.currentExercise = 0;
+  state.exState = 'question';
+  state.exCorrect = false;
+  state.selectedOption = null;
+  render();
+  window.scrollTo(0, 0);
+}
+
+function toggleExample(idx) {
+  const el = document.getElementById(`ex-${idx}`);
+  if (el) el.classList.toggle('revealed');
+}
+
+function pickOpt(el) { chooseOption(el.dataset.opt); }
+function chooseOption(opt) {
+  if (state.exState === 'answered') return;
+  state.selectedOption = opt;
+  const book = BOOKS[state.currentBook];
+  const ch = book.chapters[state.currentChapter - 1];
+  const ex = ch.exercises[state.currentExercise];
+  state.exCorrect = opt === ex.answer;
+  state.exState = 'answered';
+  render();
+}
+
+function checkAnswer() {
+  if (state.exState === 'answered') return;
+  const book = BOOKS[state.currentBook];
+  const ch = book.chapters[state.currentChapter - 1];
+  const ex = ch.exercises[state.currentExercise];
+
+  // Classify type is handled by chooseOption
+  if (ex.type === 'classify') return;
+
+  const input = document.getElementById('ans-input');
+  if (!input || !input.value.trim()) return;
+  const userVal = input.value.trim();
+
+  // Placeholder chapters accept any non-empty answer
+  if (ex.answer === '*') {
+    state.exCorrect = true;
+  } else {
+    state.exCorrect = normalize(userVal) === normalize(ex.answer);
+  }
+  state.exState = 'answered';
+  render();
+  window.scrollTo(0, 0);
+}
+
+function nextExercise() {
+  state.currentExercise++;
+  state.exState = 'question';
+  state.exCorrect = false;
+  state.selectedOption = null;
+  render();
+  window.scrollTo(0, 0);
+}
+
+function finishChapter() {
+  markDone(state.currentBook, state.currentChapter);
+  const book = BOOKS[state.currentBook];
+  const ch = book.chapters[state.currentChapter - 1];
+  const nextNum = state.currentChapter + 1;
+  const hasNext = nextNum <= book.chapters.length;
+  const app = document.getElementById('app');
+  app.innerHTML = `<div class="completion-wrap">
+    <div class="completion-card">
+      <div class="completion-icon">⭐</div>
+      <h2 class="completion-title">Глава ${ch.number} завершена!</h2>
+      <p class="completion-text">${esc(ch.theme)}</p>
+      <div class="completion-btns">
+        ${hasNext
+          ? `<button class="btn btn-gold" onclick="startChapter(${nextNum})">Следующая глава →</button>`
+          : `<button class="btn btn-gold" onclick="goTo('progress')">Посмотреть прогресс</button>`}
+        <button class="btn btn-outline" onclick="goTo('chapterMap')">К списку глав</button>
+      </div>
+    </div>
+  </div>`;
+  window.scrollTo(0, 0);
+}
+
+function resetProgress() {
+  if (!confirm('Вы уверены? Весь прогресс будет удалён.')) return;
+  state.progress = {};
+  saveProgress();
+  render();
+}
+
+// ================================================================
+// INIT
+// ================================================================
+loadProgress();
+render();
+</script>
+</body>
+</html>
