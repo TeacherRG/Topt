@@ -10,11 +10,16 @@
   "grammar": {
     "topic": "Модальные глаголы: können, müssen, sollen",
     "explanation": "Модальные глаголы добавляют оттенок к действию: können (мочь/уметь), müssen (быть должным/обязанным), sollen (следует/велено). Как притча учит не полагаться лишь на себя — так и модальный глагол указывает, что инфинитив ставится в конец предложения.",
-    "formula": "können (мочь):   ich kann, du kannst, er/sie/es kann\nmüssen (должен): ich muss, du musst, er/sie/es muss\nsollen (следует): ich soll,  du sollst,  er/sie/es soll\n\n→ Инфинитив всегда уходит в КОНЕЦ предложения:\n  «Ich kann Weisheit finden.»",
+    "formula": "können (мочь):    ich kann,  du kannst,  er/sie/es kann\nmüssen (должен):  ich muss,  du musst,   er/sie/es muss\nsollen (следует): ich soll,  du sollst,  er/sie/es soll\n\nwir/sie/Sie: форма совпадает с инфинитивом\n  → wir können, wir müssen, wir sollen\n\nИнфинитив всегда в КОНЕЦ предложения:\n  «Ich kann Weisheit finden.»",
     "examples": [
       { "de": "Ich kann Weisheit finden.", "ru": "Я могу найти мудрость." },
       { "de": "Du musst dem HERRN vertrauen.", "ru": "Ты должен доверять Господу." },
-      { "de": "Man soll nicht auf sich selbst bauen.", "ru": "Не следует полагаться лишь на себя." }
+      { "de": "Man soll nicht auf sich selbst bauen.", "ru": "Не следует полагаться лишь на себя." },
+      { "de": "Er kann die Wahrheit sagen.", "ru": "Он может говорить правду." },
+      { "de": "Wir müssen den Weg der Weisheit gehen.", "ru": "Мы должны идти путём мудрости." },
+      { "de": "Ihr sollt eure Eltern ehren.", "ru": "Вам следует чтить своих родителей." },
+      { "de": "Sie können viel lernen.", "ru": "Они могут многому научиться." },
+      { "de": "Du sollst nicht lügen.", "ru": "Тебе не следует лгать." }
     ]
   },
   "exercises": [
@@ -36,6 +41,26 @@
       "question": "Переведите: «Я должен искать мудрость.»",
       "answer": "Ich muss Weisheit suchen.",
       "hint": "müssen → muss; suchen = искать; инфинитив — в конец"
+    },
+    {
+      "type": "classify",
+      "question": "Выберите правильную форму «sollen» для «du»:",
+      "options": ["soll", "sollst", "sollen", "sollt"],
+      "answer": "sollst",
+      "hint": "du + sollen → sollst"
+    },
+    {
+      "type": "fill",
+      "question": "Wir ___ viel lernen. (können)",
+      "answer": "können",
+      "hint": "wir + können → können (совпадает с инфинитивом)"
+    },
+    {
+      "type": "classify",
+      "question": "Выберите правильную форму «müssen» для «ich»:",
+      "options": ["muss", "müssen", "musst", "müsst"],
+      "answer": "muss",
+      "hint": "ich + müssen → muss (без умлаута в личных формах ед. числа)"
     }
   ]
 }

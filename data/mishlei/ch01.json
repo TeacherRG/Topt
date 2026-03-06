@@ -10,11 +10,16 @@
   "grammar": {
     "topic": "Глагол sein — «быть» в настоящем времени",
     "explanation": "Глагол sein («быть») — самый важный глагол немецкого языка. Он стоит у истоков грамматики, как страх Господень — у истоков мудрости. Sein описывает качества, состояния и принадлежность.",
-    "formula": "ich bin     → я есть\ndu bist     → ты есть\ner/sie/es ist → он/она/оно есть\nwir sind    → мы есть\nihr seid    → вы (неформ.) есть\nsie/Sie sind → они / Вы есть",
+    "formula": "ich bin       → я есть\ndu bist       → ты есть\ner/sie/es ist → он/она/оно есть\nwir sind      → мы есть\nihr seid      → вы (неформ.) есть\nsie/Sie sind  → они / Вы есть",
     "examples": [
       { "de": "Die Weisheit ist wertvoll.", "ru": "Мудрость ценна." },
       { "de": "Ich bin ein Schüler.", "ru": "Я — ученик." },
-      { "de": "Wir sind auf dem Weg der Erkenntnis.", "ru": "Мы — на пути познания." }
+      { "de": "Wir sind auf dem Weg der Erkenntnis.", "ru": "Мы — на пути познания." },
+      { "de": "Du bist klug und weise.", "ru": "Ты умён и мудр." },
+      { "de": "Er ist ein treuer Freund.", "ru": "Он — верный друг." },
+      { "de": "Das Buch ist sehr alt.", "ru": "Книга очень старая." },
+      { "de": "Ihr seid fleißige Schüler.", "ru": "Вы — прилежные ученики." },
+      { "de": "Sie sind fromm und gerecht.", "ru": "Они благочестивы и праведны." }
     ]
   },
   "exercises": [
@@ -22,20 +27,39 @@
       "type": "fill",
       "question": "Die Weisheit ___ der Anfang des Lebens. (sein)",
       "answer": "ist",
-      "hint": "3-е лицо, ед. число → ist"
+      "hint": "3-е лицо ед. числа → ist"
     },
     {
       "type": "classify",
-      "question": "Выберите правильную форму для «Wir ___ weise»:",
+      "question": "Выберите правильную форму sein для «Wir ___ weise»:",
       "options": ["bin", "sind", "ist", "seid"],
       "answer": "sind",
-      "hint": "Wir (мы) → sind"
+      "hint": "wir → sind"
     },
     {
       "type": "translate",
       "question": "Переведите: «Страх Господень — начало мудрости.»",
       "answer": "Die Furcht des HERRN ist der Anfang der Weisheit.",
       "hint": "Furcht = страх, Anfang = начало, Weisheit = мудрость"
+    },
+    {
+      "type": "fill",
+      "question": "Du ___ mein treuer Freund. (sein)",
+      "answer": "bist",
+      "hint": "du → bist"
+    },
+    {
+      "type": "classify",
+      "question": "Выберите правильную форму sein для «Ich ___ ein Schüler»:",
+      "options": ["bin", "bist", "ist", "sind"],
+      "answer": "bin",
+      "hint": "ich → bin"
+    },
+    {
+      "type": "fill",
+      "question": "Ihr ___ fleißige Schüler. (sein)",
+      "answer": "seid",
+      "hint": "ihr → seid"
     }
   ]
 }

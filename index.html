@@ -552,6 +552,57 @@
       margin-bottom: 20px;
     }
 
+    /* ── GAME OVERLAY ── */
+    .game-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--paper);
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+      z-index: 100;
+      overflow-y: auto;
+    }
+    .game-overlay-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 16px 60px;
+    }
+
+    /* ── GAME LAUNCHER STRIP ── */
+    .game-strip {
+      display: flex;
+      gap: 9px;
+      margin: 14px 0 4px;
+    }
+    .game-strip-btn {
+      flex: 1;
+      padding: 11px 8px;
+      border: 1.5px solid var(--paper-dark);
+      border-radius: 10px;
+      background: #fff;
+      cursor: pointer;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: .82rem;
+      line-height: 1.35;
+      color: var(--ink);
+      text-align: center;
+      transition: border-color .18s, transform .15s;
+    }
+    .game-strip-btn:hover:not(:disabled) {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+    .game-strip-btn:disabled { opacity: .38; cursor: default; }
+    .game-strip-btn .gsb-icon { font-size: 1.35rem; display: block; margin-bottom: 4px; }
+    .game-strip-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .6rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 3px;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 480px) {
       .app-title { font-size: 1.75rem; }
@@ -577,6 +628,8 @@ const cache = {
   chapterIndex: {},     // { [bookId]: ChapterStub[] }
   chapters: {}          // { ['bookId/num']: ChapterData }
 };
+// Expose to game modules (ES module scope is separate)
+window._appCache = cache;
 
 async function fetchJSON(path) {
   const res = await fetch(path);
@@ -623,6 +676,8 @@ const state = {
   selectedOption: null,
   progress: {}
 };
+// Expose to game modules (ES module scope is separate)
+window._appState = state;
 
 // ── localStorage ──────────────────────────────────────────────
 function loadProgress() {
@@ -754,6 +809,8 @@ function renderChapterMap() {
   const hint = done === 0 ? 'Начните с первой главы'
     : `${done} ${plural(done,'глава','главы','глав')} завершено`;
 
+  const hasGamesData = done >= 1;
+
   setHTML(`<div>
     ${navBar('chapterMap')}
     <div class="map-header">
@@ -761,6 +818,18 @@ function renderChapterMap() {
       <span class="map-count">${done}/${book.chaptersCount}</span>
     </div>
     <div class="map-hint">${hint}</div>
+    <div class="game-strip">
+      <button class="game-strip-btn" onclick="openGame('flashcards')" ${hasGamesData?'':'disabled'}>
+        <span class="gsb-icon">🃏</span>
+        <span class="game-strip-label">Мини-игра</span>
+        Флеш-карты
+      </button>
+      <button class="game-strip-btn" onclick="openGame('chain')" ${hasGamesData?'':'disabled'}>
+        <span class="gsb-icon">🔗</span>
+        <span class="game-strip-label">Мини-игра</span>
+        Цепочка
+      </button>
+    </div>
     <div class="chapter-grid">${cells}</div>
   </div>`);
 }
@@ -1054,6 +1123,53 @@ function resetProgress() {
 // ================================================================
 loadProgress();
 goTo('bookSelect');
+</script>
+
+<!--
+  Game modules are ES modules loaded dynamically on demand.
+  They are decoupled from the main script above.
+-->
+<script type="module">
+  import { startFlashcards } from './games/flashcards.js';
+  import { startChain }      from './games/chain.js';
+
+  /**
+   * Collects all chapter data objects that have been loaded into cache
+   * (i.e. chapters the player has actually opened).
+   * For games we only need chapters whose JSON is already in cache —
+   * no extra network requests.
+   */
+  function getLoadedChapters() {
+    const bookId = window._appState?.currentBook;
+    if (!bookId) return [];
+    return Object.entries(window._appCache?.chapters ?? {})
+      .filter(([k]) => k.startsWith(bookId + '/'))
+      .map(([, ch]) => ch);
+  }
+
+  /**
+   * Opens a full-screen game overlay and starts the requested game.
+   * @param {'flashcards'|'chain'} type
+   */
+  window.openGame = function openGame(type) {
+    const chapters = getLoadedChapters();
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'game-overlay';
+    overlay.innerHTML = '<div class="game-overlay-inner"></div>';
+    document.body.appendChild(overlay);
+
+    const inner = overlay.querySelector('.game-overlay-inner');
+
+    const close = () => overlay.remove();
+
+    if (type === 'flashcards') {
+      startFlashcards(inner, chapters, { onClose: close });
+    } else if (type === 'chain') {
+      startChain(inner, chapters, { onClose: close });
+    }
+  };
 </script>
 </body>
 </html>
