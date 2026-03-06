@@ -9,17 +9,70 @@
   },
   "grammar": {
     "topic": "Модальные глаголы: können, müssen, sollen",
-    "explanation": "Модальные глаголы добавляют оттенок к действию: können (мочь/уметь), müssen (быть должным/обязанным), sollen (следует/велено). Как притча учит не полагаться лишь на себя — так и модальный глагол указывает, что инфинитив ставится в конец предложения.",
-    "formula": "können (мочь):    ich kann,  du kannst,  er/sie/es kann\nmüssen (должен):  ich muss,  du musst,   er/sie/es muss\nsollen (следует): ich soll,  du sollst,  er/sie/es soll\n\nwir/sie/Sie: форма совпадает с инфинитивом\n  → wir können, wir müssen, wir sollen\n\nИнфинитив всегда в КОНЕЦ предложения:\n  «Ich kann Weisheit finden.»",
+    "definition": "Модальные глаголы выражают отношение говорящего к действию: können (возможность/умение), müssen (необходимость/обязанность), sollen (долженствование по чужой воле). Как притча учит не полагаться лишь на себя — так и модальный глагол указывает, что инфинитив ставится в конец предложения.",
+    "level": "A2",
+    "branches": [
+      {
+        "type": "structure",
+        "label": "Спряжение — Präsens",
+        "content": "         können   müssen   sollen\nich      kann     muss     soll\ndu       kannst   musst    sollst\ner/sie   kann     muss     soll\nwir      können   müssen   sollen\nihr      könnt    müsst    sollt\nsie/Sie  können   müssen   sollen\n\nСтруктура предложения:\n[Подлеж.] + [Модал. гл.] + … + [Инфинитив]\n  Ich kann  Weisheit  finden."
+      },
+      {
+        "type": "forms",
+        "label": "Значения, Präteritum и Perfekt",
+        "content": "können:  kann → konnte → hat gekonnt\n  (умею / могу / разрешено)\n\nmüssen:  muss → musste → hat gemusst\n  (вынужден / необходимо / логич. вывод)\n\nsollen:  soll → sollte → hat gesollt\n  (велено / следует / чужая воля)\n\nВ разговоре Perfekt модальных:\n  Ich habe kommen können. (не: habe gekonnt)\n  Ich habe lernen müssen."
+      },
+      {
+        "type": "usage",
+        "label": "Использование в речи",
+        "items": [
+          "können — физические/интеллектуальные способности: Sie kann gut singen. (Она хорошо поёт.)",
+          "können — вежливое разрешение: Kann ich Ihnen helfen? (Могу ли я вам помочь?)",
+          "können — возможность: Das kann wahr sein. (Это может быть правдой.)",
+          "müssen — внутренняя необходимость: Er ist krank, er muss ruhen. (Он болен, ему нужно отдыхать.)",
+          "müssen — логический вывод: Das muss ein Fehler sein. (Это должна быть ошибка.)",
+          "sollen — задание / поручение / чужая воля: Du sollst deinen Vater ehren.",
+          "Инфинитив смыслового глагола — ВСЕГДА в конец: Ich muss Weisheit suchen.",
+          "После модального глагола НИКОГДА не используется «zu» перед инфинитивом"
+        ]
+      },
+      {
+        "type": "examples",
+        "label": "Примеры — нажмите для перевода",
+        "items": [
+          { "de": "Ich kann Weisheit finden.", "ru": "Я могу найти мудрость." },
+          { "de": "Du musst dem HERRN vertrauen.", "ru": "Ты должен доверять Господу." },
+          { "de": "Man soll nicht auf sich selbst bauen.", "ru": "Не следует полагаться лишь на себя." },
+          { "de": "Er kann die Wahrheit sagen.", "ru": "Он может говорить правду." },
+          { "de": "Wir müssen den Weg der Weisheit gehen.", "ru": "Мы должны идти путём мудрости." },
+          { "de": "Ihr sollt eure Eltern ehren.", "ru": "Вам следует чтить своих родителей." },
+          { "de": "Sie können viel lernen.", "ru": "Они могут многому научиться." },
+          { "de": "Du sollst nicht lügen.", "ru": "Тебе не следует лгать." }
+        ]
+      },
+      {
+        "type": "errors",
+        "label": "Типичные ошибки",
+        "items": [
+          "❌ Ich kann sprechen Deutsch. → ✅ Ich kann Deutsch sprechen. (инфинитив — в конец)",
+          "❌ Er muss zu lernen. → ✅ Er muss lernen. (без «zu» после модального глагола)",
+          "❌ Wir müssen gehen jetzt. → ✅ Wir müssen jetzt gehen. (инфинитив — в самый конец)",
+          "❌ Er soll kommt. → ✅ Er soll kommen. (инфинитив, не спрягаемая форма)",
+          "❌ Du kannst nicht gehen nicht. → ✅ Du kannst nicht gehen. (одно отрицание)"
+        ]
+      }
+    ],
+    "algorithm": [
+      "Определите значение: возможность (können) / необходимость (müssen) / долженствование/поручение (sollen)",
+      "Проспрягайте модальный глагол по лицу и числу подлежащего",
+      "Поставьте модальный глагол на 2-е место в предложении",
+      "Найдите смысловой глагол и поставьте его в инфинитиве в КОНЕЦ предложения",
+      "Проверьте: между модальным глаголом и инфинитивом нет «zu»"
+    ],
     "examples": [
-      { "de": "Ich kann Weisheit finden.", "ru": "Я могу найти мудрость." },
-      { "de": "Du musst dem HERRN vertrauen.", "ru": "Ты должен доверять Господу." },
-      { "de": "Man soll nicht auf sich selbst bauen.", "ru": "Не следует полагаться лишь на себя." },
-      { "de": "Er kann die Wahrheit sagen.", "ru": "Он может говорить правду." },
-      { "de": "Wir müssen den Weg der Weisheit gehen.", "ru": "Мы должны идти путём мудрости." },
-      { "de": "Ihr sollt eure Eltern ehren.", "ru": "Вам следует чтить своих родителей." },
-      { "de": "Sie können viel lernen.", "ru": "Они могут многому научиться." },
-      { "de": "Du sollst nicht lügen.", "ru": "Тебе не следует лгать." }
+      { "de": "Wer weise sein will, muss lernen.", "ru": "Кто хочет быть мудрым, должен учиться." },
+      { "de": "Du sollst deinen Nächsten lieben.", "ru": "Возлюби ближнего своего." },
+      { "de": "Ich kann heute nicht kommen.", "ru": "Я сегодня не могу прийти." }
     ]
   },
   "exercises": [

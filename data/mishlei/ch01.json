@@ -9,17 +9,68 @@
   },
   "grammar": {
     "topic": "Глагол sein — «быть» в настоящем времени",
-    "explanation": "Глагол sein («быть») — самый важный глагол немецкого языка. Он стоит у истоков грамматики, как страх Господень — у истоков мудрости. Sein описывает качества, состояния и принадлежность.",
-    "formula": "ich bin       → я есть\ndu bist       → ты есть\ner/sie/es ist → он/она/оно есть\nwir sind      → мы есть\nihr seid      → вы (неформ.) есть\nsie/Sie sind  → они / Вы есть",
+    "definition": "Глагол sein («быть») — самый важный и неправильный глагол немецкого языка. Как страх Господень — начало мудрости, так sein — начало немецкой грамматики. Он описывает качества, состояния, роли и местонахождение.",
+    "level": "A1",
+    "branches": [
+      {
+        "type": "structure",
+        "label": "Спряжение sein — Präsens",
+        "content": "ich bin       → я есть\ndu bist       → ты есть\ner/sie/es ist → он / она / оно есть\nwir sind      → мы есть\nihr seid      → вы (неформ.) есть\nsie/Sie sind  → они / Вы (вежл.) есть"
+      },
+      {
+        "type": "forms",
+        "label": "Формы и основные времена",
+        "content": "Инфинитив:      sein\nPräteritum:     war / warst / war / waren / wart / waren\nPerfekt:        bin/bist/ist/sind/seid/sind + gewesen\nPlusquamperf.:  war … gewesen\n\nОсновные формы:\n  sein — war — gewesen"
+      },
+      {
+        "type": "usage",
+        "label": "Когда использовать sein",
+        "items": [
+          "Описание качества или свойства: Das Buch ist alt. (Книга старая.)",
+          "Указание на профессию или роль: Er ist Lehrer. (Он — учитель.)",
+          "Указание на происхождение или национальность: Wir sind aus Deutschland. (Мы из Германии.)",
+          "Описание состояния: Sie ist müde. (Она устала.)",
+          "Указание на местонахождение: Das Kind ist zu Hause. (Ребёнок дома.)",
+          "Вспомогательный глагол в Perfekt глаголов движения/изменения: Ich bin gegangen. (Я ушёл.)"
+        ]
+      },
+      {
+        "type": "examples",
+        "label": "Примеры — нажмите для перевода",
+        "items": [
+          { "de": "Die Weisheit ist wertvoll.", "ru": "Мудрость ценна." },
+          { "de": "Ich bin ein Schüler.", "ru": "Я — ученик." },
+          { "de": "Wir sind auf dem Weg der Erkenntnis.", "ru": "Мы — на пути познания." },
+          { "de": "Du bist klug und weise.", "ru": "Ты умён и мудр." },
+          { "de": "Er ist ein treuer Freund.", "ru": "Он — верный друг." },
+          { "de": "Das Buch ist sehr alt.", "ru": "Книга очень старая." },
+          { "de": "Ihr seid fleißige Schüler.", "ru": "Вы — прилежные ученики." },
+          { "de": "Sie sind fromm und gerecht.", "ru": "Они благочестивы и праведны." }
+        ]
+      },
+      {
+        "type": "errors",
+        "label": "Типичные ошибки",
+        "items": [
+          "❌ Ich ist klug. → ✅ Ich bin klug. (для ich — только bin)",
+          "❌ Er sind müde. → ✅ Er ist müde. (единственное число → ist)",
+          "❌ Du bin zu Hause. → ✅ Du bist zu Hause. (для du — только bist)",
+          "❌ Wir ist Freunde. → ✅ Wir sind Freunde. (mн. число / wir → sind)",
+          "❌ Ihr sind fleißig. → ✅ Ihr seid fleißig. (ihr → seid, не sind)"
+        ]
+      }
+    ],
+    "algorithm": [
+      "Определите подлежащее (wer? / was?)",
+      "Выберите форму: ich→bin, du→bist, er/sie/es→ist, wir→sind, ihr→seid, sie/Sie→sind",
+      "Поставьте sein на 2-е место в предложении (после подлежащего)",
+      "Добавьте именную часть сказуемого: прилагательное, существительное или наречие места",
+      "Проверьте согласование: форма sein соответствует подлежащему"
+    ],
     "examples": [
-      { "de": "Die Weisheit ist wertvoll.", "ru": "Мудрость ценна." },
-      { "de": "Ich bin ein Schüler.", "ru": "Я — ученик." },
-      { "de": "Wir sind auf dem Weg der Erkenntnis.", "ru": "Мы — на пути познания." },
-      { "de": "Du bist klug und weise.", "ru": "Ты умён и мудр." },
-      { "de": "Er ist ein treuer Freund.", "ru": "Он — верный друг." },
-      { "de": "Das Buch ist sehr alt.", "ru": "Книга очень старая." },
-      { "de": "Ihr seid fleißige Schüler.", "ru": "Вы — прилежные ученики." },
-      { "de": "Sie sind fromm und gerecht.", "ru": "Они благочестивы и праведны." }
+      { "de": "Der König ist weise und gerecht.", "ru": "Царь мудр и справедлив." },
+      { "de": "Wir sind Schüler der Weisheit.", "ru": "Мы — ученики мудрости." },
+      { "de": "Sie ist geduldig und gütig.", "ru": "Она терпелива и добра." }
     ]
   },
   "exercises": [
