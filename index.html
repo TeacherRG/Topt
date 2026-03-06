@@ -560,10 +560,168 @@
       .ch-theme { display: none; }
       .card { padding: 20px; }
     }
+
+    /* ── GRAMMAR MIND MAP ── */
+    .mm-wrap { font-family: 'IBM Plex Sans', sans-serif; }
+
+    /* Center node */
+    .mm-center {
+      background: linear-gradient(135deg, var(--ink) 0%, #2e2010 100%);
+      color: var(--paper);
+      border-radius: 16px;
+      padding: 24px 28px;
+      text-align: center;
+      box-shadow: 0 4px 20px var(--shadow);
+    }
+    .mm-level {
+      display: inline-block;
+      background: var(--gold);
+      color: #fff;
+      border-radius: 4px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .68rem;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      margin-bottom: 10px;
+    }
+    .mm-topic {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .mm-definition {
+      font-size: .9rem;
+      opacity: .8;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Connector line */
+    .mm-connector {
+      display: flex;
+      justify-content: center;
+      height: 28px;
+    }
+    .mm-connector-line {
+      width: 2px;
+      height: 100%;
+      background: var(--gold);
+    }
+
+    /* Branches grid */
+    .mm-branches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .mm-branch {
+      background: var(--bbg);
+      border: 2px solid var(--bb);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .mm-branch-head {
+      background: var(--bb);
+      color: #fff;
+      padding: 8px 14px;
+      font-weight: 600;
+      font-size: .82rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mm-branch-body { padding: 12px 14px; }
+    .mm-branch-pre {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .78rem;
+      white-space: pre-wrap;
+      line-height: 1.65;
+      margin: 0;
+      color: var(--ink);
+    }
+    .mm-item {
+      font-size: .85rem;
+      line-height: 1.55;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(0,0,0,.07);
+    }
+    .mm-item:last-child { border-bottom: none; }
+
+    /* Example items (click to reveal) */
+    .mm-example-item {
+      cursor: pointer;
+      padding: 7px 10px;
+      border-radius: 6px;
+      margin-bottom: 5px;
+      background: rgba(255,255,255,.6);
+      transition: background .15s;
+    }
+    .mm-example-item:last-child { margin-bottom: 0; }
+    .mm-example-item:hover { background: rgba(255,255,255,.9); }
+    .mm-example-de { font-size: .88rem; display: block; }
+    .mm-example-ru { font-size: .8rem; color: var(--rust); display: block; margin-top: 3px; }
+
+    /* Sections (algorithm, mini-examples) */
+    .mm-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 8px var(--shadow);
+      margin-bottom: 14px;
+    }
+    .mm-section-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: .68rem;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    /* Algorithm steps */
+    .mm-steps { display: flex; flex-direction: column; }
+    .mm-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--paper);
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .mm-step-num {
+      background: var(--gold);
+      color: #fff;
+      border-radius: 50%;
+      min-width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .78rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .mm-step-text { font-size: .88rem; line-height: 1.55; padding-top: 2px; }
+    .mm-step-arrow {
+      text-align: center;
+      color: var(--gold);
+      font-size: .85rem;
+      padding: 3px 14px;
+    }
+
+    @media (max-width: 480px) {
+      .mm-branches { grid-template-columns: 1fr; }
+      .mm-center { padding: 18px 16px; }
+      .mm-topic { font-size: 1.25rem; }
+    }
   </style>
 </head>
 <body>
 <div id="app"></div>
+<script src="grammar-mindmap.js"></script>
 <script>
 'use strict';
 
@@ -810,20 +968,12 @@ function renderGrammar(ch) {
   const g = ch.grammar;
   const notice = ch.placeholder
     ? `<div class="placeholder-notice">⚠ Грамматика этой главы в разработке.</div>` : '';
-  const examplesHtml = g.examples.map((ex, i) =>
-    `<div class="example-item" onclick="toggleExample(${i})" id="ex-${i}">
-      <div class="example-de">${esc(ex.de)}</div>
-      <div class="example-ru">${esc(ex.ru)}</div>
-    </div>`
-  ).join('');
-  return `<div class="card">
+  return `<div>
     ${notice}
-    <h2 class="grammar-topic">${esc(g.topic)}</h2>
-    <p class="grammar-explanation">${esc(g.explanation)}</p>
-    <div class="formula-box">${esc(g.formula)}</div>
-    <div class="examples-title">Примеры — нажмите для перевода</div>
-    ${examplesHtml}
-    <div class="btn-row"><button class="btn btn-primary" onclick="nextStep()">Далее →</button></div>
+    ${GrammarMindMap.render(g)}
+    <div class="btn-row" style="margin-top:20px;">
+      <button class="btn btn-primary" onclick="nextStep()">Далее →</button>
+    </div>
   </div>`;
 }
 
