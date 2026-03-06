@@ -9,17 +9,69 @@
   },
   "grammar": {
     "topic": "Артикли: der, die, das",
-    "explanation": "В немецком языке каждое существительное несёт грамматический род: мужской (der), женский (die) или средний (das). Как мудрость даётся свыше — так и род существительного «даётся» словарём. Запоминайте слово вместе с артиклем.",
-    "formula": "der → мужской род  (Maskulinum)\ndie → женский род  (Femininum)\ndas → средний род  (Neutrum)\ndie → множественное число (все роды)\n\nПодсказки по суффиксам:\n-heit, -keit, -ung, -schaft → всегда die\n-er, -ling (деятель) → часто der\n-chen, -lein → всегда das",
+    "definition": "В немецком языке каждое существительное имеет грамматический род: мужской (der), женский (die) или средний (das). Как мудрость даётся свыше — так и род существительного «дан» языком. Артикль — неотъемлемая часть слова, его нужно запоминать вместе с существительным.",
+    "level": "A1",
+    "branches": [
+      {
+        "type": "structure",
+        "label": "Определённые артикли — Nominativ",
+        "content": "der → мужской род   (Maskulinum)\ndie → женский род   (Femininum)\ndas → средний род   (Neutrum)\ndie → множественное (все роды)\n\nСуффиксы → всегда die (ж.р.):\n  -heit, -keit, -ung, -schaft, -tion, -tät, -ur\n\nСуффиксы → всегда das (ср.р.):\n  -chen, -lein, -ment, -tum, -um\n\nСуффиксы → чаще der (м.р.):\n  -er (деятель), -ling, -ismus, -or"
+      },
+      {
+        "type": "forms",
+        "label": "Склонение артиклей (все 4 падежа)",
+        "content": "         Mask.(M)  Fem.(F)  Neut.(N)  Plural\nNom:     der       die      das       die\nAkk:     den       die      das       die\nDat:     dem       der      dem       den\nGen:     des       der      des       der\n\nНеопределённый артикль (ед. число):\n  ein / eine / ein  (Nom)\n  einen / eine / ein  (Akk)"
+      },
+      {
+        "type": "usage",
+        "label": "Правила употребления",
+        "items": [
+          "Всегда учите слово вместе с артиклем: die Weisheit, der König, das Herz",
+          "Суффикс -heit/-keit/-ung/-schaft/-tion → die (die Freiheit, die Hoffnung, die Nation)",
+          "Суффикс -chen/-lein → всегда das, даже для лиц ж.р.: das Mädchen, das Fräulein",
+          "Суффикс -er (деятель) → der: der Lehrer, der Schüler, der Vater",
+          "Металлы и числа → das: das Gold, das Silber, das Dutzend",
+          "Иностранные слова на -ment/-um → das: das Experiment, das Zentrum",
+          "После предлогов артикль меняет форму по падежу (см. таблицу выше)"
+        ]
+      },
+      {
+        "type": "examples",
+        "label": "Примеры — нажмите для перевода",
+        "items": [
+          { "de": "Der König ist weise.", "ru": "Царь мудр." },
+          { "de": "Die Weisheit kommt von Gott.", "ru": "Мудрость приходит от Бога." },
+          { "de": "Das Herz des Weisen ist rein.", "ru": "Сердце мудреца чисто." },
+          { "de": "Der Sohn ehrt seinen Vater.", "ru": "Сын чтит своего отца." },
+          { "de": "Die Seele sucht den Herrn.", "ru": "Душа ищет Господа." },
+          { "de": "Das Licht leuchtet in der Nacht.", "ru": "Свет светит в ночи." },
+          { "de": "Der Weg zur Weisheit ist lang.", "ru": "Путь к мудрости долог." },
+          { "de": "Die Wahrheit ist kostbar.", "ru": "Истина драгоценна." }
+        ]
+      },
+      {
+        "type": "errors",
+        "label": "Типичные ошибки",
+        "items": [
+          "❌ der Weisheit → ✅ die Weisheit (суффикс -heit → всегда die)",
+          "❌ das Mädchen … sie ist klug → ✅ das Mädchen … es ist klug (das → местоимение es)",
+          "❌ ein Freiheit → ✅ eine Freiheit (ж.р. → eine в ед. числе)",
+          "❌ Ich sehe den Buch → ✅ Ich sehe das Buch (das Buch — средний род, Akkusativ = das)",
+          "❌ Ich gehe in der Schule → ✅ Ich gehe in die Schule (направление → Akkusativ: in die)"
+        ]
+      }
+    ],
+    "algorithm": [
+      "Посмотрите суффикс существительного: -heit/-keit/-ung → die; -chen/-lein → das",
+      "Если суффикс не подсказывает — проверьте словарь и запомните слово вместе с артиклем",
+      "Определите функцию в предложении: подлежащее (Nom), дополнение (Akk/Dat/Gen)",
+      "Измените форму артикля по таблице падежей",
+      "Проверьте: не перепутаны ли неопределённый и определённый артикли"
+    ],
     "examples": [
-      { "de": "Der König ist weise.", "ru": "Царь мудр." },
-      { "de": "Die Weisheit kommt von Gott.", "ru": "Мудрость приходит от Бога." },
-      { "de": "Das Herz des Weisen ist rein.", "ru": "Сердце мудреца чисто." },
-      { "de": "Der Sohn ehrt seinen Vater.", "ru": "Сын чтит своего отца." },
-      { "de": "Die Seele sucht den Herrn.", "ru": "Душа ищет Господа." },
-      { "de": "Das Licht leuchtet in der Nacht.", "ru": "Свет светит в ночи." },
-      { "de": "Der Weg zur Weisheit ist lang.", "ru": "Путь к мудрости долог." },
-      { "de": "Die Wahrheit ist kostbar.", "ru": "Истина драгоценна." }
+      { "de": "Die Erkenntnis kommt von oben.", "ru": "Познание приходит свыше." },
+      { "de": "Der Vater gibt seinem Sohn Weisheit.", "ru": "Отец даёт своему сыну мудрость." },
+      { "de": "Das Wort des Herrn ist Licht.", "ru": "Слово Господне — свет." }
     ]
   },
   "exercises": [
